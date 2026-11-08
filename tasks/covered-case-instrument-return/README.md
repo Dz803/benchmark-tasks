@@ -1,4 +1,4 @@
-# Find an Empty Covered Case Before Returning a Module
+# Find the Empty Case Before Returning an Instrument
 
 At a shared equipment-return bench, return one 40 mm instrument module to the vacant one of three opaque covered cases. The other two cases already hold identical modules, so the intended workflow is to open a case and check its contents before committing to a destination. The left arm moves each lid by its central handle; the right arm carries the incoming module and positions its wrist camera to inspect the opened case. A wrong placement into an occupied case scores zero. The fixed setup and exact numerical scoring rule are in `task.json`.
 
