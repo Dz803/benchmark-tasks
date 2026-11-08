@@ -1,6 +1,6 @@
-# Covered-Case Instrument Return
+# Find an Empty Covered Case Before Returning a Module
 
-Return one 40 mm instrument module to the empty one of three covered cases. The two other cases already contain identical modules. The left arm moves each lid by its central handle; the right arm carries the incoming module and positions its wrist camera to inspect the opened case. A wrong placement into an occupied case scores zero. The fixed setup and exact numerical scoring rule are in `task.json`.
+At a shared equipment-return bench, return one 40 mm instrument module to the vacant one of three opaque covered cases. The other two cases already hold identical modules, so the intended workflow is to open a case and check its contents before committing to a destination. The left arm moves each lid by its central handle; the right arm carries the incoming module and positions its wrist camera to inspect the opened case. A wrong placement into an occupied case scores zero. The fixed setup and exact numerical scoring rule are in `task.json`.
 
 The task uses the calibrated YAM station (`SCENE="station"`) with two stock arms and the stock top and wrist cameras. Its 75 g removable lids are separate USD rigid bodies with a panel, central handle and underside rim groove. The case shells and 80 g modules are simple rigid cuboids. The meshes and contact colliders were authored for this task; no third-party textures or logos are used.
 
