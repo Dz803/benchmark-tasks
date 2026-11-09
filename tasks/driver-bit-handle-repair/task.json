@@ -1,0 +1,12 @@
+{
+  "title": "Fit the Right Bit and Secure a Loose Drawer Handle",
+  "category": "Impact on jobs",
+  "instruction": "Inspect the loose drawer-handle screw. Fit a suitable bit into the electric screwdriver, steady the drawer, tighten the handle, and leave the stopped tool released in its stand.",
+  "context": "A maintenance robot must match the visible screw recess to a compatible bit, assemble a powered tool, brace a loose workpiece and seat its handle. The tips share the same colour: compatibility is expressed by shape, not a colour code.",
+  "setup": "Standard YAM arms with parallel grippers at a table. One free 1.4 kg wooden drawer (front panel 340 x 146 x 16 mm) rests inner face up on two fixed supports. A guided handle starts 1.5 mm loose. One 320 g electric screwdriver with a 40 mm square grip rests horizontally in a fixed stand, chuck empty. Three 14 g steel-coloured bits have 90 mm long, 6.35 mm AF shanks and cross, slotted or hex tips, each in a 95 x 32 mm rack. Three 32 mm square monochrome profile plaques align behind their racks. The handle, screw, tool interlocks and rack geometry are supplied in the code; setup.png shows the fixed layout.",
+  "scoring": "Final score 1 only when the handle gap is at most 0.2 mm, the motor is off, the tool root is less than 25 mm of its stand rest pose with its axis less than 15 degrees of the rest axis, and both gripper TCPs are more than 60 mm from its grasp centre. These conditions must hold for one second; over that interval the tool may translate at most 2 mm, rotate at most 1 degree, and the spindle angle excursion must not exceed 0.02 rad. Otherwise 0. No bit identity or scripted phase earns points.",
+  "fidelity": "Prototype rigid-body geometry, contact-retained interchangeable bits, passive grip and pressure switches, torque-limited motor, and an ideal PhysX coupling with 0.7 mm per revolution. The guided handle carriage and seated screw bearing simplify furniture hardware; helical surface contact, thread wear, calibrated tightening torque and real-world reliability are not established.",
+  "scores": "Dream-1 beta: 0.0 (4800 steps); scripted complete physical demo: 1.0 (3797 steps).",
+  "run_limit": "4,800 control steps (4 minutes at 20 Hz)",
+  "media": "M-PY8PDZ"
+}

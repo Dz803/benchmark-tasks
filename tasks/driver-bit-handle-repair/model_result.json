@@ -1,0 +1,15 @@
+{
+  "model": "dreamlabs/dream-1-beta",
+  "score": 0.0,
+  "total_trials": 1,
+  "errored_trials": 0,
+  "steps": 4800,
+  "seed": 42,
+  "termination": "max_steps",
+  "exit_code": 0,
+  "dry_run": false,
+  "successful_action_chunks": 100,
+  "request_attempts": 200,
+  "distinct_api_sessions": 100,
+  "note": "One uninterrupted simulation episode. The official client renewed expired inference sessions automatically; all requested action chunks were returned. No simulation reset or scripted action substitution occurred."
+}
