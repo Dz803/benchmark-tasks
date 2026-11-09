@@ -1,0 +1,34 @@
+{
+  "demo": {
+    "score": 1.0,
+    "steps": 1665,
+    "terminal_success": true,
+    "exit_code": 0,
+    "max_instrument_tilt_deg": 4.249232124395318,
+    "complete_stable_s": 3.1
+  },
+  "idle": {
+    "score": 0.0,
+    "steps": 150,
+    "invalid": false,
+    "note": "Complete run evidence saved; containing control batch later exited139 at unresolved shutdown/startup stage."
+  },
+  "release_negative": {
+    "score": 0.0,
+    "steps": 355,
+    "invalid": true,
+    "max_instrument_tilt_deg": 27.330157814764362,
+    "failure_rule": "instrument_tilt_over_25deg",
+    "max_unsupported_drop_m": 0.029222965240478516,
+    "exit_code": 0
+  },
+  "synthetic_scoring_checks": 7,
+  "scope": "Single fixed layout; thresholds are design values, not hardware-calibrated.",
+  "dream": {
+    "score": 0.0,
+    "steps": 2400,
+    "policy": "dreamlabs/dream-1-beta",
+    "seed": 42,
+    "errored_trials": 0
+  }
+}
