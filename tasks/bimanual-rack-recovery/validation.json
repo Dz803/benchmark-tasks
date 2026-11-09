@@ -1,0 +1,30 @@
+{
+  "demo": {
+    "score": 1.0,
+    "steps": 600,
+    "success": true,
+    "historical_failure": false,
+    "peak_carrier_tilt_deg": 4.5012344463288
+  },
+  "idle": {
+    "score": 0.0,
+    "steps": 65,
+    "success": false,
+    "historical_failure": false,
+    "peak_carrier_tilt_deg": 3.700889644321279e-05
+  },
+  "unsafe_one_side_lift": {
+    "score": 0.0,
+    "steps": 295,
+    "success": false,
+    "historical_failure": true,
+    "peak_carrier_tilt_deg": 19.52556844469847
+  },
+  "dream": {
+    "score": 0.0,
+    "steps": 2400,
+    "policy": "dreamlabs/dream-1-beta",
+    "seed": 42,
+    "errored_trials": 0
+  }
+}
