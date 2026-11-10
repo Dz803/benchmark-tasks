@@ -1,0 +1,47 @@
+{
+  "demo": {
+    "score": 1.0,
+    "control_steps": 700,
+    "simulated_seconds": 35,
+    "max_carrier_tilt_deg": 0.6820518494,
+    "max_sample_tilt_deg": 0.6826237275,
+    "prelift_clearance_motion_mm": 72.6266354,
+    "prelift_lip_gap_mm": 43.4140127,
+    "final_center_error_mm": 0.8326505,
+    "released_stable_seconds": 2.95
+  },
+  "controls": {
+    "idle": {
+      "score": 0.0,
+      "steps": 45
+    },
+    "unsafe_one_sided_lift": {
+      "score": 0.0,
+      "steps": 186,
+      "historical_failure": true,
+      "max_carrier_tilt_deg": 12.06991604,
+      "early_stop": "Stops after the safety violation; script raises RuntimeError after recording evidence."
+    }
+  },
+  "runtime_sha256": {
+    "clearance.py": "2f973ccb9b875ba9fc23806575b099d9d5b425f3bdd01fa1a09281a30aed68de",
+    "task.py": "9738d5d21a2be17fb70b5fb9424636b6d103180ecac957c13386a1636abe092d",
+    "partkit.py": "3bbc2b28e4d5c62333028b40438e7033cf8af76eed1d0b1b3f3556ea5d6a9519",
+    "demo.py": "a5cd9b51e0f72f90468650312bda0a01ab997894363422394256a1d7386509ab",
+    "scene_constants.py": "e32743fd92d88cf1d377d3d85c1d6d200dcb79ca4d0ac4133629f093bb026539"
+  },
+  "limitations": [
+    "Single fixed-layout trial; not a hardware reliability estimate.",
+    "Contact callback unavailable. Geometry gaps only validate sampled states."
+  ],
+  "dream": {
+    "model": "dreamlabs/dream-1-beta",
+    "score": 0.0,
+    "control_steps": 2400,
+    "seed": 42,
+    "total_trials": 1,
+    "errored_trials": 0,
+    "termination": "max_steps",
+    "wall_duration_s": 523.5965357939713
+  }
+}
