@@ -1,0 +1,52 @@
+{
+  "demo": {
+    "score": 1.0,
+    "steps": 1500,
+    "simulated_seconds": 75,
+    "max_instrument_tilt_deg": 4.4580026092453,
+    "released_stable_seconds": 3.35
+  },
+  "controls": {
+    "idle": {
+      "score": 0.0,
+      "steps": 150,
+      "exit_code": 0
+    },
+    "lift_and_release": {
+      "score": 0.0,
+      "steps": 935,
+      "held_before_release": true,
+      "lift_before_release_mm": 137.15684413909912,
+      "max_tilt_deg": 49.63669956541938,
+      "max_unsupported_descent_mm": 52.14053392410278,
+      "first_tilt_failure_step": 825,
+      "first_drop_failure_step": 830,
+      "exit_code": 0
+    }
+  },
+  "runtime_sha256": {
+    "task.py": "b6ac1c1658b380c100a3c1a658a93c639b4987cdbefaed2229da7bcdedd8a6c8",
+    "partkit.py": "1ef486f8e0d364536d8085269d8334b53691c67b3dbcc9aaa7fde78fe8244cea",
+    "score_logic.py": "7b8faaa166b69dc3024a8a13a11c06bf17e334a79a018e301b1dda15bbea7599",
+    "physical_demo.py": "98dc5fc607c25cd8ddd3b8a972c24c0444e5835a9e3e0f3075e197c414e0471a"
+  },
+  "synthetic_tests": {
+    "passed": 7,
+    "scope": "Scorer boundary and history tests, not physical trials."
+  },
+  "limitations": [
+    "Fixed layout; not a real-hardware success-rate estimate.",
+    "Support uses pose and grasp-motion proxies, not measured contact forces."
+  ],
+  "control_runner_sha256": "c3fc0c51317f13af6794bd9925cf74c84d73956cfed609c5df310649ab2274f9",
+  "dream": {
+    "model": "dreamlabs/dream-1-beta",
+    "score": 0.0,
+    "control_steps": 2400,
+    "seed": 42,
+    "total_trials": 1,
+    "errored_trials": 0,
+    "termination": "max_steps",
+    "wall_duration_s": 549.1341906780144
+  }
+}

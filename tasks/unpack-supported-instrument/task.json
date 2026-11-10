@@ -1,0 +1,18 @@
+{
+  "title": "Unpack a supported optical instrument without dropping it",
+  "category": "Safety and alignment",
+  "keywords": [
+    "packaging",
+    "support transfer",
+    "fragile instrument"
+  ],
+  "instruction": "The outer carton cover has already been removed. Unpack the instrument onto its service stand and put both protective foam inserts in the packing tray, keeping the instrument supported throughout.",
+  "context": "A narrow-foot optical module travels inside fitted upper and lower protective foam in a two-piece telescopic corrugated carton. Its outer cover is already removed. Transfer it onto its matching service stand while maintaining support, then collect both foam inserts.",
+  "setup": "Fixed YAM station. A 350 g optical instrument is nested in a 150 g lower foam support and a 100 g fitted upper foam shell at x=0.34,y=0.08 m. Lower foam: 200 x 178 x 150 mm, with 40 mm support deck. Upper foam: 218 x 178 x 117.5 mm, recessed grip wells, no added handle. Corrugated base interior: 300 x 280 x 60 mm; removed cover interior: 312 x 292 x 240 mm at x=0.67,y=-0.42 m. Their telescopic overlap can enclose the roughly 272 mm protected module. Service stand: x=0.34,y=-0.17 m. Packing tray: x=0.65,y=0.30 m, 280 x 320 mm exterior and 268 x 308 mm interior. No object jitter.",
+  "scoring": "End score. Any instrument tilt beyond 25 degrees or unsupported downward travel beyond 30 mm latches zero. Otherwise 0.5 requires its foot supported by the service stand, origin within 25 mm of stand center, tilt under 10 degrees, speed below 15 mm/s and angular speed below 0.10 rad/s, released for one second. Score 1.0 additionally requires all geometry of both foam parts within the tray's inner horizontal footprint (1 mm tolerance), above its floor and below 300 mm above table, each moving below 20 mm/s and 0.12 rad/s, with all conditions held one second. Grippers must be at least 65 mm from all designated grip references. Support/drop measurement is specified in SCORING.md.",
+  "run_limit": "2400 control steps at 20 Hz (120 seconds simulation).",
+  "reset_notes": "Fresh scene reset restores the fixed layout and clears all safety and stability history. Seed 42; object jitter disabled.",
+  "fidelity": "Rigid compound foam and corrugated carton proxies with real PhysX gravity/friction/contact. Foam compression, cardboard flex, tape cutting and unsealing are not simulated; the deep outer cover starts removed. Pose/gripper-motion proxies measure support. Robot-actions-only demonstration, without object teleports or grasp attachments.",
+  "scores": "Dream-1-beta: 0.0 in 2400 control steps; scripted physical demo: 1.0 in 1500 steps. Seed 42, fixed layout.",
+  "media": "M-VABH9Q"
+}
