@@ -217,36 +217,38 @@ def run(out,lift_only=False,preview_only=False,assembly_only=False,hover_only=Fa
                 measured_q=aq[[rob.joint_names.index(n) for n in ARM_JOINTS]]
                 tcp,Ractual=ik.tcp_pose(measured_q,station.BASES['left'])
                 body_offset=Ractual.T@(st.pos-tcp)
-                body_axis=Ractual.T@st.rotation()[:,2]
+                body_rotation_in_tcp=Ractual.T@st.rotation()
+                home_rotation=Rotation.from_quat([0.,-2**-.5,2**-.5,0.]).as_matrix()
                 def metrics(joints):
                     planned_tcp,planned_R=ik.tcp_pose(joints,station.BASES['left'])
                     body_error=planned_tcp+planned_R@body_offset-body_target
-                    axis_error=np.arccos(np.clip((planned_R@body_axis)@np.array([0.,-1.,0.]),-1.,1.))
-                    return body_error,axis_error
+                    rotation_error=Rotation.from_matrix(
+                        (planned_R@body_rotation_in_tcp)@home_rotation.T).as_rotvec()
+                    return body_error,rotation_error
                 def residual(joints):
-                    p_error,a_error=metrics(joints)
-                    return np.r_[p_error,.2*max(0.,a_error-np.radians(7.))]
+                    p_error,rotation_error=metrics(joints)
+                    return np.r_[p_error,.1*rotation_error]
                 fit=least_squares(residual,np.clip(measured_q,ik.LOWER+1e-6,ik.UPPER-1e-6),
                                   bounds=(ik.LOWER,ik.UPPER),max_nfev=150)
                 qgoal=fit.x
-                planned_error,planned_axis=metrics(qgoal)
-                if np.linalg.norm(planned_error)>.020 or planned_axis>np.radians(14.):
+                planned_error,planned_rotation=metrics(qgoal)
+                if np.linalg.norm(planned_error)>.020 or np.linalg.norm(planned_rotation)>np.radians(16.):
                     raise RuntimeError(f'Dock body target unreachable: {np.linalg.norm(planned_error):.4f} m, '
-                                       f'{np.degrees(planned_axis):.1f} deg')
+                                       f'{np.degrees(np.linalg.norm(planned_rotation)):.1f} deg')
                 target_p,target_R=ik.tcp_pose(qgoal,station.BASES['left'])
                 if j:dock_bias=np.clip(dock_bias+.5*(qgoal-measured_q),-.20,.20)
                 move(f'{label}_{j}','left',target_p,0,20,target_R,joint_space=True,
                      q_target=np.clip(qgoal+dock_bias,ik.LOWER,ik.UPPER))
                 body=object_states(emb._env,['driver'])['driver']
                 p_err=np.linalg.norm(body.pos-body_target)
-                a_err=np.arccos(np.clip(body.rotation()[:,2]@np.array([0.,-1.,0.]),-1.,1.))
-                if p_err<.018 and a_err<np.radians(13):break
+                a_err=Rotation.from_matrix(body.rotation()@home_rotation.T).magnitude()
+                if p_err<.018 and a_err<np.radians(7 if body_target[2]<=home[2]+.001 else 13):break
             return p_err,a_err
         for h in (.10,.05,.02,0.):
             err,ang=dock_at(f'dock_{int(h*1000)}',home+[0,0,h])
             if h>=.02 and (err>.025 or ang>np.radians(15)):
                 raise RuntimeError(f'High-clearance docking failed at {h:.3f} m: {err:.4f} m, {np.degrees(ang):.1f} deg')
-        if err>.025 or ang>np.radians(15):
+        if err>.025 or ang>np.radians(8):
             raise RuntimeError(f'Physical tool placement missed stand: {err:.4f} m, {np.degrees(ang):.1f} deg')
         move('tool_release','left',pos['left'],1,30,rot['left'])
         # Retreat from the measured release pose with a shoulder lift. A
@@ -258,7 +260,9 @@ def run(out,lift_only=False,preview_only=False,assembly_only=False,hover_only=Fa
         qclear=released_q.copy();qclear[1]-=.30
         clear_p,clear_R=ik.tcp_pose(qclear,np.array(station.BASES['left']))
         move('left_shoulder_clear','left',clear_p,1,90,clear_R,joint_space=True,q_target=qclear)
-        move('final_hold','left',clear_p,1,70,clear_R,joint_space=True,q_target=qclear)
+        ready_p,ready_R=ik.tcp_pose(np.array(READY),np.array(station.BASES['left']))
+        move('left_ready','left',ready_p,1,70,ready_R,joint_space=True,q_target=np.array(READY))
+        move('final_hold','left',ready_p,1,80,ready_R,joint_space=True,q_target=np.array(READY))
     import os
     if os.environ.get('REPAIR_RESET_ONLY')=='1':
         move('reset_settle','left',pos['left'],1,50,rot['left'])

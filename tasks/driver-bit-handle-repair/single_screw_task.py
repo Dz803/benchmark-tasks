@@ -1,10 +1,10 @@
-"""Single workpiece screw revision; ideal 0.7 mm/rev thread, pending PhysX validation."""
+"""Single-screw drawer-knob task with ideal 0.7 mm/rev feed."""
 from gap_assembly_task import *
 from single_screw_score import score_from_evidence
 import numpy as np
 from dataclasses import replace
 
-INSTRUCTION='Select and install the matching bit in the stopped screwdriver. Use the powered tool to tighten the loose drawer knob screw, then return the stopped tool to its stand.'
+INSTRUCTION='Inspect the loose drawer-knob screw. Fit the matching bit into the stopped powered screwdriver, tighten the screw with that tool, then release the stopped tool in its stand.'
 MOTOR_RPM=15.0
 MOTOR_TORQUE_NM=.10
 SCREW_RUNNING_RESISTANCE_NM=.02
@@ -352,7 +352,10 @@ def update_power(env):
     # Final score needs measured closure and a released, stopped tool in the stand.
     st=driver
     home=np.array([.225,-.015,TOP+.067])
-    stand=bool(np.linalg.norm(st.pos-home)<.025 and np.dot(st.rotation()[:,2],[0,-1,0])>math.cos(math.radians(15)))
+    home_quat=np.array([0.,-2**-.5,2**-.5,0.])
+    tool_quat=np.asarray(st.quat_xyzw)
+    orientation_error=2*math.acos(min(1.,abs(float(np.dot(tool_quat,home_quat)))))
+    stand=bool(np.linalg.norm(st.pos-home)<.025 and orientation_error<math.radians(8.))
     velocity=partkit._np(a.data.root_vel_w)[0]
     speed=np.linalg.norm(velocity[:3]);angular_speed=np.linalg.norm(velocity[3:])
     hands_clear=True
@@ -391,7 +394,8 @@ def update_power(env):
                      load_pass=bool(load_pass),tip_clear=bool(tip_clear),knob_clear=bool(knob_clear))
     eligible=(load_pass and not on and stand and hands_clear and
               all(opening>=.8 for opening in hand_open.values()))
-    MECHANISM.update(tool_in_stand=bool(stand),hands_clear=bool(hands_clear),
+    MECHANISM.update(tool_in_stand=bool(stand),tool_orientation_error_deg=math.degrees(orientation_error),
+                     hands_clear=bool(hands_clear),
                      hands_open=hand_open,tool_speed=float(speed),tool_angular_speed=float(angular_speed))
     if eligible:
         _STILL.append((st.pos.copy(),np.asarray(st.quat_xyzw).copy(),v['motor_angle_rad']))

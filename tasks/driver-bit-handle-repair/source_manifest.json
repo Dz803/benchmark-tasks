@@ -1,5 +1,5 @@
 {
-  "README.md": "675e9ea5d1e5e6410001c68fc8b707194578480e71b123de780dc3e5525ec48c",
+  "README.md": "29ead75703d1f0f17a0debd442bae42a866c65690a93c49918c50c047b071f8b",
   "bit_side_pick_ik.json": "84bb499a97d965503626e1e3782335a7fe38ccb8bc471b2dcb6d84cd5cab9fc9",
   "checkpoint.py": "f531e9f446c8b814d24edd59d89a58c036bc67489bc32581b276ab6e3dbb1b2b",
   "clear_task.py": "9e7512baab755c35d7a9a6196837112a56557638f9b009d9e9a29f589d6299a8",
@@ -22,11 +22,11 @@
   "selected_insertion_plan.json": "d41d3df3177f0a471c04dea8a540fb4eeea2e9e2b81b46603beee7bcfd9ba1b4",
   "setup.png": "eb25dc4d34c41ac19b3e36d5f5fd63f5dc430d61edfaa73b7f376bb987b27c4c",
   "shifted_assembly_task.py": "24f3ada1bdfe1a48c4978a59e894cd385214b521a0f58267d933f8d0625caa88",
-  "single_screw_demo.py": "170ed6b33fa0bd29f528342dfbc6a99ed2daa899441a76a70b5d84eb536b915f",
+  "single_screw_demo.py": "58c94992aa42a4c7b400a94a830b7a3135912b5b18a0e8dba060c5900bd7c4b6",
   "single_screw_replay.py": "31a887e9aa6792d3016ae711841dc1caa7f3f903a6244be7ef788dd5f1ac1524",
   "single_screw_score.py": "3bf491f432c8472584ec4ce0f1f747e7bf348da7365575748452a23f629bc214",
-  "single_screw_task.py": "9f0531ae51920e18cd727542eeb923b390abb9a2672879d42832c0a1cb093b0b",
-  "task.json": "75711eeb06bb741daef0f0e334e78f9e4fbc975d4bfb71d577f229bbad9fe8e4",
+  "single_screw_task.py": "d8308bb3ca4f3b94503fd4ebe3926a69d426ba6f7eb835ef886c9f959b82fe0a",
+  "task.json": "e6f89c8476c52f223f277cfa102b25a6c82a498e7ed690f7b6d5bb8a1f71726e",
   "task.py": "fddcb201757936778229403f6a2d12f9231ae8f68c237bd6cc1ae6394b1fb76c",
   "test_single_screw_score.py": "4e5f93acf9dfdecff003316fa86559997bc519f6a809bd57923de93d831bb1a3"
 }
