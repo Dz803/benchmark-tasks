@@ -1,0 +1,11 @@
+{
+  "policy": "dreamlabs/dream-1-beta",
+  "status": "success",
+  "score": 0.0,
+  "errored_trials": 0,
+  "total_trials": 1,
+  "total_steps": 1800,
+  "seed": 42,
+  "object_jitter": 0,
+  "plate_seed": 0
+}

@@ -1,0 +1,20 @@
+{
+  "source_actions": "demo_actions.npz",
+  "steps": 1320,
+  "score": 0.0,
+  "success": false,
+  "inspected": {
+    "plate_a": true,
+    "plate_b": true
+  },
+  "failures": {
+    "wrong_service": true,
+    "wrong_discard": false,
+    "dropped": false
+  },
+  "final_ready_max_joint_error_rad": {
+    "left": 0.007474724669009447,
+    "right": 0.0060470555908977985
+  },
+  "plate_seed": 1
+}

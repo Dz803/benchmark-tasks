@@ -1,0 +1,19 @@
+{
+  "title": "Inspect Washed Plates and Reject Chipped Crockery Before Service",
+  "category": "Impact on jobs",
+  "keywords": [
+    "restaurant service",
+    "dish inspection",
+    "visual defect detection",
+    "safe sorting"
+  ],
+  "instruction": "Inspect the face and rim of each washed plate for chips or cracks before sorting. Place each intact plate in the tray at the serving hatch, and discard each damaged plate in the reject bin.",
+  "context": "Dishwashers routinely place clean dishes in storage or serving areas and sort refuse; dining-room attendants replenish dishes, carry them to serving counters and remove broken ones (O*NET 35-9021.00 and 35-9011.00). This post-wash check keeps damaged crockery out of restaurant service: the robot handles two visually similar plates but must discard the one with a missing rim segment. Wigan Council food-safety guidance recommends throwing away chipped or cracked dishes because damage can retain dirt and harmful bacteria.",
+  "setup": "Standard yam_arena station with tabletop z=0.7475 m, two YAM arms and three cameras. Two 180 mm diameter, 285 g ceramic-coloured rigid service plates with continuous rolled rims and no handles start 15 degrees tilted, centred at (0.140,+0.125) and (0.140,-0.125) m and 55 mm above the table, in separate bays of a fixed steel-coloured 226 x 506 mm wire drainer. One rim has a missing arc with fracture-coloured ends. A fixed 300 x 300 mm stainless-coloured serving tray is centred at (0.410,0) m before a roughly 300 mm wide, 224 mm high steel-coloured PICKUP hatch at x=0.580 m. A fixed dark-polymer reject bin with a red open lid, WASTE marking, 260 mm square inner opening and 135 mm inner height is centred at (0.410,-0.320) m. The tray and bin are empty; both arms start at ready. With PLATE_SEED=0 the chipped plate is in the negative-y bay (plate B); PLATE_SEED=1 swaps the defect to plate A. Set object_jitter=0 for the shown fixed layout.",
+  "scoring": "The intact plate earns 0.5 when released face-up with its entire oriented disk inside the serving tray, normal_z >= 0.94, bottom 6-35 mm above the table, and centre drift <=8 mm plus face-normal change <=0.12 rad for 20 consecutive 20 Hz steps. The chipped plate earns 0.5 when released with its entire disk inside the reject bin below the 135 mm rim (5 mm wall-contact tolerance), with the same 20-step stability limits. The two outcomes are order-independent; both are required for 1.0. A nearby gripper counts as released only when at least 70% open. Releasing the damaged plate on the serving tray, discarding the intact plate, or dropping either plate more than 30 mm below the worktop permanently forces the episode score to 0 even if later corrected. Inspection poses are diagnostic only and earn no points; arm return is not scored.",
+  "run_limit": "1,800 control steps (90 simulated seconds at 20 Hz)",
+  "reset_notes": "Return both plates to their named drainer bays and both arms to ready. Set the chipped-rim geometry and scorer mapping together using PLATE_SEED=0 or PLATE_SEED=1. Leave the receiving tray and reject bin empty; the bin lid remains open and fixed.",
+  "fidelity": "The chipped rim is missing rigid geometry, not a painted label. Plates, rack, tray, bin and hatch are procedural rigid bodies. Plate friction is increased to make a rim pinch feasible and is not calibrated to glazed ceramic. Real breakage, fragments, contamination, cleaning, measured grasp forces and the bin-lid mechanism are not simulated. The scripted result validates one fixed-layout simulation, not physical product accuracy or autonomous visual recognition.",
+  "scores": "Dream-1 beta: 0.0 in one official 1,800-step run, with zero errored trials. Fixed-layout scripted YAM demo: 1.0 in 1,320 control steps.",
+  "media": "M-L4RSK7"
+}
