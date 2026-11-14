@@ -1,5 +1,5 @@
-"""Fit a suitable driver bit and seat a loose drawer handle."""
+"""Fit a suitable driver bit and secure one loose drawer knob."""
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from powered_task import *
+from single_screw_task import *

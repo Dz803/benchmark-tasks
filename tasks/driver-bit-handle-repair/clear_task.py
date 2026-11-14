@@ -6,7 +6,7 @@ from horizontal_task import *
 from dataclasses import replace
 import math
 # Same-colour matching tip; physical contact dimensions agree with bench probe.
-OBJECTS=[replace(o,boxes=(o.boxes[0],((0,0,.064),(.009,.002,.003),GREY),((0,0,.064),(.002,.009,.003),GREY))) if o.name=='bit' else o for o in OBJECTS]
+OBJECTS=[replace(o,boxes=(o.boxes[0],((0,0,.064),(.007,.0016,.003),GREY),((0,0,.064),(.0016,.007,.003),GREY))) if o.name=='bit' else o for o in OBJECTS]
 # Tangible backstop resists insertion along the horizontal tool axis.
 OBJECTS.append(part('tool_backstop',(.18,-.026,TOP),[((0,0,.037),(.052,.008,.074),DARK)],.2,fixed_to_world=True))
 _previous_spawn=partkit._spawn_part
@@ -18,7 +18,8 @@ def clear_spawn(prim_path,cfg,*args,**kwargs):
     stage=get_current_stage()
     # Remove the original square raised blocks and their backing decals.
     for k in range(13,23):stage.RemovePrim(prim_path+f'/body/box_{k}')
-    radius=.008; slot=.0013
+    # Enlarged 12 mm head for camera legibility; M4 pitch is retained.
+    radius=.006; slot=.0013
     for index,yy in enumerate((-.025,.095)):
         center=(-.012,yy-.035,.099)
         for sx in (-1,1):
