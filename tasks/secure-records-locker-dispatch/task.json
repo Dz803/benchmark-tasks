@@ -1,0 +1,19 @@
+{
+  "title": "Retrieve a Labeled Archive Case From a PIN-Locked Records Cabinet",
+  "category": "Impact on jobs",
+  "keywords": [
+    "records retrieval",
+    "keypad",
+    "label matching",
+    "cabinet relatching"
+  ],
+  "instruction": "Records-room inventory drill: these synthetic cases contain blank forms only. Enter issued PIN 2468 at locker 27. Match the printed case code F317 and place only that sealed case flat in the green receiving tray. Close the door until its latch re-engages. Leave locker 12 and the other cases undisturbed.",
+  "context": "File clerks retrieve requested files for authorized users and keep track of materials removed (O*NET 43-4071.00). A wrong-case dispatch or an unlatched records cabinet breaks that workflow. This task combines the issued access code, numbered locker, visible case label, physical transfer and secure closeout; the codes and blank cases are synthetic.",
+  "setup": "Standard yam_arena station with two YAM arms, overhead and two wrist cameras, table top z=0.7475 m. A fixed steel-coloured 420 x 220 x 380 mm two-bay cabinet is centred at (0.600,0) m. Upper locker 27 and lower locker 12 each have a 165 mm hinged door with pull bar, rear strike, 20 mm bolt and separate 12-key physical keypad with 7 mm key travel; both start closed and bolted. Four labelled rigid 229 x 162 x 22 mm archive cases of 0.22 kg each start on separate shelves: F104/F263 in locker 12, F317/F892 in locker 27. In layout A, F317 is below F892; layout B swaps those two. The cases have continuous raised front rims. A fixed empty green 350 x 390 mm tray is centred at (0.365,-0.420) m. A fixed white 155 x 112 mm dispatch slip at (0.118,0.145) m shows BOX 27, F317 and PIN 2468. The shown screenshot uses layout A and object_jitter=0; both arms start at ready.",
+  "scoring": "0.15 after separate 2,4,6,8,E presses and releases on locker 27's physical keypad retract its bolt >=15 mm; +0.20 once that door opens >=50 deg after access; +0.45 while only F317 is fully inside the tray, flat (normal_z>=0.90), at tabletop+15-42 mm, below 20 mm/s and 0.2 rad/s, with both tool centres >=100 mm clear for 20 steps; +0.20 while that placement persists, door 27 is <=5 deg open, its bolt is within 3 mm of extended and both arms clear for 20 steps. Permanent 0 if locker 12 opens >10 deg, locker 27 opens >10 deg before bolt retraction, a wrong case moves >40 mm from home, or F317 moves >40 mm before the door opens >=50 deg. Placement and closeout credit disappear if their current conditions cease; otherwise partial credits add to at most 1.0.",
+  "run_limit": "2,400 control steps (120 simulated seconds at 20 Hz)",
+  "reset_notes": "Use ROBOCURVE_RECORDS_LAYOUT=A and object_jitter=0 for the submitted fixed scene; B swaps the two cases in locker 27. Return all cases to their labelled shelves, empty the tray, close both doors, extend both bolts, release all keypad keys and return both arms to ready.",
+  "fidelity": "Procedural rigid cabinet, cases, keypads, bolts and hinged doors; synthetic labels and blank-form cases. Case mass and friction are tuned, not product measurements. No paper deformation, real access-control backend, credential audit, latch wear or measured contact forces. The scripted run validates one fixed-layout simulation, not visual code reading or real-world reliability. No downloaded task asset is distributed.",
+  "scores": "Dream-1 beta: 0.0 in one completed 2,400-step trial with zero errored trials; fixed-layout scripted YAM demo: 1.0 in 2,123 control steps.",
+  "media": "M-ACAP55"
+}
