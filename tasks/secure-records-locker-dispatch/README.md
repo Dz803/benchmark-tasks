@@ -15,7 +15,7 @@ Use the standard `yam_arena` station with two parallel grippers, an overhead cam
 | Receiving tray | Fixed green 350 × 390 mm shallow tray centred at `(0.365, -0.420)` on the table, empty at reset. |
 | Dispatch slip | Fixed white 155 × 112 mm card centred at `(0.118, 0.145)` on the table, marked `BOX 27`, `F317`, `PIN 2468`. The instruction supplies the same details, so tiny slip text is not required for the baseline. |
 
-Set `ROBOCURVE_RECORDS_LAYOUT=A` and `object_jitter=0` for the submitted screenshot, model run and scripted demonstration. Layout B deterministically swaps the two cases in locker 27 without changing their labels or the scoring rule. The script supplied here is for A only. To reset, return the four cases to their labelled shelves, empty the tray, close both doors, extend both bolts, release all keypad keys and place both arms at ready.
+Set `ROBOCURVE_RECORDS_LAYOUT=A` and `object_jitter=0` for the submitted screenshot, model run and scripted demonstration. Layout B swaps the two cases in locker 27 without changing their labels or the scoring rule. For a seeded random A/B assignment, set `ROBOCURVE_RECORDS_LAYOUT=RANDOM` and an integer `ROBOCURVE_RECORDS_SEED` (for example, seeds 1 and 0 select A and B respectively). The random choice is made when the task module loads; restart the task with a new seed for another assignment. The script supplied here is for A only. To reset, return the four cases to their labelled shelves, empty the tray, close both doors, extend both bolts, release all keypad keys and place both arms at ready.
 
 The front codes become visible after opening locker 27. This 960 px review image shows that state; the submitted Dream-1 run uses the specified 320 px camera stream.
 
@@ -52,7 +52,7 @@ ROBOCURVE_RECORDS_LAYOUT=A inspect-robots run \
   --no-prompt --log-dir runs/model
 ```
 
-The fixed-layout scripted YAM rollout scored **1.0** in **2,123 control steps**. It operated the keypad, bolt and door through simulated contacts, placed F317 in the tray, relatched the door and withdrew both arms. The resulting door angle was 0.30° from closed, with the bolt returned. This proves physical achievability for the documented layout, not that the scripted controller read the code. Layout B can test whether a policy relies on the visible label rather than the A shelf position; a complete B manipulation demonstration is not claimed.
+The fixed-layout scripted YAM rollout scored **1.0** in **2,123 control steps**. It operated the keypad, bolt and door through simulated contacts, placed F317 in the tray, relatched the door and withdrew both arms. The resulting door angle was 0.30° from closed, with the bolt returned. This proves physical achievability for the documented layout, not that the scripted controller read the code. Replaying the identical A actions after swapping F317 and F892 to layout B scored **0.0** with the wrong-case violation latched; this is a negative scorer control, not a B success demonstration. Seeded A/B layouts can test whether a policy relies on the visible label rather than the A shelf position.
 
 The submitted Dream-1 beta run completed one 2,400-step trial with **0.0** task score and **zero errored trials**. Its model video records the full 120 simulated seconds. The two scores are separate: the scripted success is not a Dream-1 success.
 

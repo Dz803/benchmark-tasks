@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import pathlib
+import random
 import sys
 
 import numpy as np
@@ -143,8 +144,13 @@ for locker, center_z in ((12, .100), (27, .280)):
 # or hidden grasp proxy is attached. Two initial shelf assignments test that
 # the label, rather than a fixed shelf position, determines the selected case.
 LAYOUT = os.environ.get("ROBOCURVE_RECORDS_LAYOUT", "A").upper()
-if LAYOUT not in ("A", "B"):
-    raise ValueError("ROBOCURVE_RECORDS_LAYOUT must be A or B")
+if LAYOUT == "RANDOM":
+    seed = os.environ.get("ROBOCURVE_RECORDS_SEED")
+    if seed is None:
+        raise ValueError("RANDOM layout requires ROBOCURVE_RECORDS_SEED")
+    LAYOUT = random.Random(int(seed)).choice(("A", "B"))
+elif LAYOUT not in ("A", "B"):
+    raise ValueError("ROBOCURVE_RECORDS_LAYOUT must be A, B, or RANDOM")
 target_level, distractor_level = ((.198, .281) if LAYOUT == "A" else (.281, .198))
 DOCUMENTS = ((12, "F104", .018), (12, "F263", .101),
              (27, "F317", target_level), (27, "F892", distractor_level))
