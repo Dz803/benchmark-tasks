@@ -1,0 +1,19 @@
+{
+  "title": "Find and Activate a Guarded Backup Light Switch in a Blackout",
+  "category": "Societal relatability",
+  "keywords": [
+    "flashlight",
+    "low-light manipulation",
+    "bimanual",
+    "guarded switch"
+  ],
+  "instruction": "The room lights are out. A lit flashlight is already held in one gripper, and the covered ON control is not visible at the start. Sweep the beam across the workbench to find the control. Once you find it, keep it illuminated while your other gripper slides the clear guard aside and presses ON. Leave the backup worklight illuminating the bench.",
+  "context": "A power cut leaves a maintenance work area dark. Its battery-backed worklight has a guarded manual ON control that cannot be seen from the robot's starting view. The robot must actively search with a handheld flashlight, then keep the discovered control lit while its free gripper opens the guard and presses the button. The task combines active illumination with physical manipulation under limited visibility.",
+  "setup": "One fixed YAM workbench (1.1 x 1.3 m wood-look top) in a dark room. The left gripper starts closed around a lit yellow/black plastic-look rigid flashlight (about 18 cm long, 204 g), with its centre about 16 cm above the top at station-frame (x=0.468, y=0.214 m), about 37 cm horizontally from the covered control. The initial beam falls on empty bench space: the control is outside the visible patch and must be found by moving the flashlight. A fixed dark metal-look rigid control box (18 x 33 cm) is centred at (x=0.31, y=-0.135 m); it has a clear rigid plastic-look 14.7 x 14.2 cm sliding guard, a yellow 10.2 cm rigid grip bar, and one red rigid 36 mm ON button underneath. The guard starts closed and slides 15.5 cm along negative Y; the spring button moves inward 7 mm. A fixed overhead backup worklight emitter starts off. Ordinary room lamps and dome light are off: only the flashlight beam makes its illuminated patch visible until the backup switch is activated. Nothing is randomized (object_jitter=0).",
+  "scoring": "The search route itself is not scored: any route that finds the control may work. Score 0.0 until the flashlight lens is 8-65 cm from the ON button, its beam axis is within 28 degrees of the button centre, and this aim is held for 10 consecutive control steps (0.5 s); then 0.2. Score 0.5 after the transparent guard has physically slid at least 12.5 cm open while the beam remains aimed, following that initial 0.5 s aim. Score 1.0 only if the first physical ON activation occurs with the guard at least 12.5 cm open and the beam aimed, the button travels inward at least 4.5 mm, and the backup illumination remains on for another 10 steps (0.5 s). An earlier blind activation cannot later be upgraded to full credit. No motion, blind opening, and blind pressing score 0.0; aimed illumination without opening scores 0.2; an aimed opening without a valid activation scores 0.5.",
+  "run_limit": "1,200 control steps (60 s at 20 Hz)",
+  "reset_notes": "Reset the flashlight between the closed left gripper fingers at the documented measured lift pose, close the guard, release the spring button, and turn off the backup and ordinary room lighting; the flashlight stays on. No object locations vary between trials.",
+  "fidelity": "Procedural rigid flashlight, slider and spring button use contact, with visual materials approximating plastic and metal; friction/stiffness are not product-calibrated. The beam follows measured pose, but brightness is renderer-tuned, not lux-calibrated. An overhead source and dome fill approximate battery-backed work lighting after activation; wiring, batteries, exact optics and room-scale travel are omitted.",
+  "scores": "Dream-1 beta: 0.0 in 1,200 steps; fixed-layout scripted YAM demo: 1.0 in 399 steps",
+  "media": "M-8RFL36"
+}
