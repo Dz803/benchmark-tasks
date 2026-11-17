@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640">
+<style>text{font:16px sans-serif;fill:#18232d}.small{font-size:13px}.title{font-size:24px;font-weight:bold}.lidlabel{fill:#b98b00;font-weight:bold}.dim{stroke:#34495e;stroke-width:2;marker-start:url(#arrow);marker-end:url(#arrow)}.line{stroke:#34495e;stroke-width:3;fill:none}</style>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" fill="#34495e"/></marker></defs>
+<text x="40" y="42" class="title">Low-voltage flip-lid case and folding U-handle — bench build, mm</text>
+<text x="40" y="74">Top view: front/operator is toward page bottom (negative Y)</text>
+<rect x="135" y="115" width="225" height="412" fill="#e5e8eb" stroke="#34495e" stroke-width="4"/>
+<text x="158" y="137" class="small">cabinet 180 × 330</text>
+<line x1="143" y1="125" x2="143" y2="515" class="line"/><line x1="352" y1="125" x2="352" y2="515" class="line"/>
+<rect x="156" y="243" width="184" height="178" fill="#9bd8e8" fill-opacity=".43" stroke="#147a90" stroke-width="3"/>
+<text x="168" y="265" class="small">closed clear lid</text><text x="168" y="286" class="small">147 × 150 × 6</text>
+<text x="177" y="344" class="lidlabel">BACKUP</text><text x="186" y="373" class="lidlabel">POWER</text>
+<rect x="175" y="401" width="146" height="25" fill="#e1ab20" stroke="#815700"/>
+<text x="166" y="444" class="small">grip bar 102 × 20 × 20</text>
+<circle cx="230" cy="310" r="8" fill="#3d4851"/><circle cx="310" cy="310" r="8" fill="#3d4851"/>
+<rect x="222" y="293" width="96" height="16" rx="5" fill="#c62828"/>
+<text x="375" y="315">U-handle pivot X=+18, Y=+18</text><line x1="363" y1="308" x2="322" y2="308" class="line"/>
+<line x1="135" y1="558" x2="360" y2="558" class="dim"/><text x="206" y="582">180</text>
+<line x1="92" y1="115" x2="92" y2="527" class="dim"/><text x="53" y="329">330</text>
+<line x1="156" y1="241" x2="340" y2="241" class="line"/><text x="365" y="246" class="small">rear hinge, 140° stop</text>
+<text x="570" y="74">Side view through lever pivot</text>
+<rect x="582" y="382" width="300" height="44" fill="#818b93" stroke="#34495e" stroke-width="3"/>
+<rect x="582" y="215" width="12" height="167" fill="#9bd8e8" fill-opacity=".5" stroke="#34495e" stroke-width="3"/>
+<rect x="870" y="215" width="12" height="167" fill="#9bd8e8" fill-opacity=".5" stroke="#34495e" stroke-width="3"/>
+<line x1="594" y1="212" x2="870" y2="212" stroke="#147a90" stroke-width="7"/>
+<circle cx="870" cy="212" r="8" fill="#34495e"/>
+<line x1="870" y1="212" x2="968" y2="75" stroke="#147a90" stroke-width="7"/>
+<text x="760" y="105" class="small">lid flips up/back ≥115°</text>
+<circle cx="737" cy="345" r="13" fill="#34495e"/>
+<line x1="737" y1="345" x2="737" y2="268" stroke="#34495e" stroke-width="12"/>
+<rect x="728" y="258" width="22" height="18" rx="5" fill="#c62828"/>
+<line x1="737" y1="345" x2="790" y2="313" stroke="#c62828" stroke-width="5" stroke-dasharray="7 5"/>
+<text x="795" y="308" class="small">60° ON stop</text>
+<text x="593" y="455" class="small">Handle: 0° OFF; crossbar 77 mm above pivot; cam closes at 48°</text>
+<line x1="921" y1="215" x2="921" y2="426" class="dim"/><text x="929" y="329">174 wall</text>
+<text x="570" y="514" class="small">80 mm bail width; 64 mm hinge centres; 5 mm pin, 0° / 60° detents</text>
+<text x="570" y="540" class="small">No mains: 5 V USB battery bank → latch board → LED worklight</text>
+<text x="40" y="619" class="small">Axes and dimensions match the simulated case. Proposed real build, not tested hardware.</text>
+</svg>

@@ -159,10 +159,16 @@ def _spawn_part(prim_path: str, cfg, translation=None, orientation=None, **kwarg
     def look(color: Color) -> str:
         if color not in looks:
             path = f"{prim_path}/Looks/c{len(looks)}"
-            vis = sim_utils.PreviewSurfaceCfg(
-                diffuse_color=linear_rgb(color), roughness=0.5,
-                opacity=spec.meta.get("opacity_colors", {}).get(color, 1.0),
-            )
+            if color in spec.meta.get("glass_colors", ()):
+                vis = sim_utils.GlassMdlCfg(
+                    glass_color=linear_rgb(color), frosting_roughness=0.02,
+                    thin_walled=True,
+                )
+            else:
+                vis = sim_utils.PreviewSurfaceCfg(
+                    diffuse_color=linear_rgb(color), roughness=0.5,
+                    opacity=spec.meta.get("opacity_colors", {}).get(color, 1.0),
+                )
             vis.func(path, vis)
             looks[color] = path
             _LOOKS[(spec.name, color)] = path
@@ -580,12 +586,22 @@ install()
 assert task_file
 
 
-def motor(name, target):
+def motor(name, target, stiffness=0.8, damping=0.08, max_force=None):
     """Only sets a PhysX angular drive; never writes rigid-body poses."""
     from isaaclab.sim.utils.stage import get_current_stage
     from pxr import UsdPhysics
     d = UsdPhysics.DriveAPI(get_current_stage().GetPrimAtPath(_HINGES[name]), "angular")
-    d.GetStiffnessAttr().Set(0.0 if target is None else 0.8)
-    d.GetDampingAttr().Set(0.01 if target is None else 0.08)
+    d.GetStiffnessAttr().Set(0.0 if target is None else float(stiffness))
+    d.GetDampingAttr().Set(0.01 if target is None else float(damping))
+    if max_force is not None:
+        d.GetMaxForceAttr().Set(float(max_force))
     if target is not None:
         d.GetTargetPositionAttr().Set(float(target))
+
+
+def hinge_lower_limit(name, lower_deg):
+    """Represent a one-way catch by changing only the hinge's reverse stop."""
+    from isaaclab.sim.utils.stage import get_current_stage
+    from pxr import UsdPhysics
+    j = UsdPhysics.RevoluteJoint.Get(get_current_stage(), _HINGES[name])
+    j.GetLowerLimitAttr().Set(float(lower_deg))

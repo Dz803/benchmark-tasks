@@ -10,7 +10,8 @@ import imageio.v2 as imageio
 import numpy as np
 
 
-def run(out: Path, guard_only: bool, blind: bool):
+def run(out: Path, guard_only: bool, blind: bool, fast: bool = False,
+        aim_only: bool = False):
     from inspect_robots import Scene
     from inspect_robots.types import Action
     from inspect_robots_yam.packing import pack
@@ -23,15 +24,17 @@ def run(out: Path, guard_only: bool, blind: bool):
     out.mkdir(parents=True, exist_ok=False)
     emb = yam_arena_embodiment(
         task=str(Path(__file__).with_name("task.py").resolve()),
-        object_jitter=0, control_hz=20, cam_width=640, cam_height=352, top_cam="demo")
+        object_jitter=0, control_hz=20, cam_width=320 if fast else 640,
+        cam_height=176 if fast else 352, top_cam="demo")
     trace = []
     actions = []
     writer = None
     try:
         obs = emb.reset(Scene(id="blackout_contact_demo", instruction=emb.task.module.INSTRUCTION))
-        writer = imageio.get_writer(out / "demo_top.mp4", fps=20, codec="libx264",
-                                    pixelformat="yuv420p", quality=8)
-        writer.append_data(np.asarray(obs.images["top_cam"]))
+        if not fast:
+            writer = imageio.get_writer(out / "demo_top.mp4", fps=20, codec="libx264",
+                                        pixelformat="yuv420p", quality=8)
+            writer.append_data(np.asarray(obs.images["top_cam"]))
         from yam_arena.scene import object_states
         task = emb.task.module
         ql = np.asarray(task.INITIAL_ACTION[:6], float)
@@ -52,14 +55,24 @@ def run(out: Path, guard_only: bool, blind: bool):
             actions.append(np.asarray(action, dtype=np.float64).copy())
             result = emb.step(Action(data=action))
             obs = result.observation
-            writer.append_data(np.asarray(obs.images["top_cam"]))
-            states = object_states(emb._env, ["torch", "control"])
+            if writer is not None:
+                writer.append_data(np.asarray(obs.images["top_cam"]))
+            states = object_states(emb._env, ["torch", "glass_lid", "on_lever"])
+            origin = states["torch"].to_world(task.torch.meta["spotlight_offset"])
+            target = np.array(task.control_point(.018, .018, .130))
+            ray = target - origin
+            axis = states["torch"].rotation() @ np.array([0., 0., -1.])
+            aim_deg = float(np.degrees(np.arccos(np.clip(
+                np.dot(axis, ray / np.linalg.norm(ray)), -1., 1.))))
             trace.append({
                 "step": len(trace), "phase": label,
                 "torch_pos_m": states["torch"].pos.tolist(),
-                "window_m": float(states["control"].sliders["window"]),
-                "button_m": float(states["control"].sliders["on_button"]),
+                "lid_deg": float(task.STATE.get("lid_angle_deg", 0.0)),
+                "lever_deg": float(task.STATE.get("lever_angle_deg", 0.0)),
                 "torch_aimed": bool(task.STATE.get("torch_aimed", False)),
+                "aim_deg": aim_deg,
+                "torch_axis": axis.tolist(),
+                "torch_quat_xyzw": states["torch"].quat_xyzw.tolist(),
                 "score": float(task.score(None)),
             })
 
@@ -68,6 +81,15 @@ def run(out: Path, guard_only: bool, blind: bool):
             q, tcp, rot = (ql, tcp_l, rot_l) if arm == "left" else (qr, tcp_r, rot_r)
             base = bases[0 if arm == "left" else 1]
             target_pos = np.asarray(pos, float)
+            if arm == "right":
+                # Reuse the proven contact waypoints in the cabinet frame
+                # after turning its front towards the camera.
+                target_pos = np.asarray(task.control_point(
+                    target_pos[0] - .31,
+                    target_pos[1] - (-.190),
+                    target_pos[2] - task.TOP))
+                orientation = axis_angle_matrix(
+                    np.array([0., 0., 1.]), task.CONTROL_YAW) @ orientation
             start_pos, start_rot = tcp.copy(), rot.copy()
             n = round(seconds * 20)
             for i in range(1, n + 1):
@@ -101,54 +123,81 @@ def run(out: Path, guard_only: bool, blind: bool):
 
         shot("initial")
         down = grip_rotation()
+        lift_30 = axis_angle_matrix(np.array([1., 0., 0.]), np.deg2rad(30.)) @ down
+        lift_60 = axis_angle_matrix(np.array([1., 0., 0.]), np.deg2rad(60.)) @ down
+        lift_85 = axis_angle_matrix(np.array([1., 0., 0.]), np.deg2rad(85.)) @ down
         tilt = (axis_angle_matrix(np.array([0., 0., 1.]), np.deg2rad(40.))
                 @ axis_angle_matrix(np.array([1., 0., 0.]), np.deg2rad(-45.))
                 @ down)
+        side_aim = (axis_angle_matrix(np.array([0., 0., 1.]), np.deg2rad(80.))
+                    @ axis_angle_matrix(np.array([1., 0., 0.]), np.deg2rad(-75.))
+                    @ down)
         if blind:
             hold(95, "leave_torch_unaimed")
         else:
-            # Three deliberate raster rows: sweep across the bench, step
-            # downward, reverse, then step down and sweep again. The final
-            # aim is a separate action after discovery. These are robot joint
-            # actions, not staged lighting or object-state changes.
+            # Begin aimed straight down, then search left to right across the
+            # bench. The final cabinet aim is a separate robot action.
             start_rot = rot_l.copy()
             rows = (
-                ("upper_left", (.42, .22, 1.02), .4, .8),
-                ("upper_right", (.42, .09, 1.02), .4, 1.5),
-                ("middle_right", (.35, .09, 1.02), .4, .5),
-                ("middle_left", (.35, .22, 1.02), .4, 1.5),
-                ("lower_left", (.28, .22, 1.02), .4, .5),
-                ("lower_right", (.28, .09, 1.02), .4, 1.5),
+                ("left_1", (.36, .16, 1.02), 0.0, .55),
+                ("left_2", (.36, .09, 1.02), 0.0, .55),
+                ("center", (.36, .02, 1.02), 0.0, .55),
+                ("right_1", (.36, -.05, 1.02), 0.0, .55),
+                ("right_2", (.36, -.12, 1.02), 0.0, .55),
             )
             for label, position, mix, seconds in rows:
                 move("left", position, ik.slerp_matrix(start_rot, tilt, mix),
                      seconds, "scan_" + label)
-                hold(5, "inspect_" + label)
+                hold(3, "inspect_" + label)
                 shot("scan_" + label)
-            move("left", (.26, .075, 1.035), tilt, 1.0, "find_control")
-            hold(15, "aim_hold")
+            move("left", (.26, .020, 1.035), tilt, .9, "find_control")
+            hold(10, "aim_hold")
+            move("left", (.110, -.065, 1.060), side_aim, 1.4, "move_torch_clear")
+            hold(15, "side_aim_hold")
         shot("aimed")
-        move("right", (.31, -.217, .950), down, 1.2, "approach_guard")
+        if aim_only:
+            result = {"mode": "aim_only", "steps": len(trace),
+                      "score": float(task.score(None)),
+                      "torch_aimed": bool(task.STATE.get("torch_aimed", False)),
+                      "aim_deg": trace[-1]["aim_deg"],
+                      "torch_axis": trace[-1]["torch_axis"],
+                      "max_ik_error_m": max_ik_error}
+            (out / "result.json").write_text(json.dumps(result, indent=2) + "\n")
+            (out / "trace.jsonl").write_text("".join(json.dumps(row) + "\n" for row in trace))
+            np.savez_compressed(out / "actions.npz", actions=np.asarray(actions))
+            print(json.dumps(result), flush=True)
+            return
+        move("right", (.31, -.272, 1.016), down, 1.2, "approach_guard")
         shot("approach_guard")
-        move("right", (.31, -.217, .881), down, 1.0, "descend_guard")
+        move("right", (.31, -.272, .947), down, 1.0, "descend_guard")
         finger(0.0, .7, "grasp_guard")
         hold(8, "guard_grip_hold")
         shot("guard_gripped")
-        move("right", (.31, -.365, .881), down, 1.6, "slide_guard")
+        move("right", (.31, -.240, 1.005), lift_30, .9, "lift_lid_30deg")
+        move("right", (.31, -.181, 1.056), lift_60, .9, "lift_lid_60deg")
+        move("right", (.31, -.078, 1.083), lift_85, 1.2, "flip_lid_up")
+        move("right", (.31, -.020, 1.060), lift_85, .9, "fold_lid_past_vertical")
         hold(8, "guard_hold")
         shot("guard_opened")
         if not guard_only:
             finger(1.0, .5, "release_guard")
-            move("right", (.31, -.365, .955), down, .7, "clear_guard")
-            move("right", (.328, -.117, .915), down, 1.1, "above_button")
-            shot("above_button")
-            finger(0.0, .5, "close_for_press")
-            move("right", (.328, -.117, .820), down, 1.0, "press_button")
-            hold(10, "press_hold")
-            shot("pressed")
-            move("right", (.328, -.117, .940), down, .8, "clear_button")
+            move("right", (.31, -.020, 1.145), lift_85, .7, "clear_guard")
+            move("right", (.46, -.145, 1.065), lift_60, 1.0, "route_right_of_torch")
+            move("right", (.328, -.135, 1.010), lift_30, 1.0, "approach_lever_from_right")
+            move("right", (.328, -.135, .925), down, .8, "above_lever")
+            shot("above_lever")
+            move("right", (.328, -.135, .901), down, .75, "descend_lever")
+            finger(0.0, .6, "grip_lever")
+            hold(8, "lever_grip_hold")
+            shot("lever_gripped")
+            move("right", (.328, -.225, .873), down, 2.0, "pull_lever_on")
+            hold(12, "lever_on_hold")
+            shot("lever_on")
+            finger(1.0, .5, "release_lever")
+            move("right", (.328, -.225, .950), down, .8, "clear_lever")
+            hold(12, "settle_on")
             shot("finish")
-        final = object_states(emb._env, ["torch", "control"])
+        final = object_states(emb._env, ["torch", "glass_lid", "on_lever"])
         result = {
             "mode": "blind_press_control" if blind else ("guard_only" if guard_only else "full_contact"),
             "steps": len(trace), "score": float(task.score(None)),
@@ -156,8 +205,8 @@ def run(out: Path, guard_only: bool, blind: bool):
             "guard_opened_lit": bool(task.STATE.get("guard_opened_lit", False)),
             "valid_activation": bool(task.STATE.get("valid_activation", False)),
             "worklight_on": bool(task.STATE.get("worklight_on", False)),
-            "window_m": float(final["control"].sliders["window"]),
-            "button_m": float(final["control"].sliders["on_button"]),
+            "lid_deg": float(task.STATE.get("lid_angle_deg", 0.0)),
+            "lever_deg": float(task.STATE.get("lever_angle_deg", 0.0)),
             "max_ik_error_m": max_ik_error,
         }
         (out / "result.json").write_text(json.dumps(result, indent=2) + "\n")
@@ -172,4 +221,5 @@ def run(out: Path, guard_only: bool, blind: bool):
 
 if __name__ == "__main__":
     out = Path(sys.argv[1])
-    run(out, "--guard-only" in sys.argv[2:], "--blind" in sys.argv[2:])
+    run(out, "--guard-only" in sys.argv[2:], "--blind" in sys.argv[2:],
+        "--fast" in sys.argv[2:], "--aim-only" in sys.argv[2:])
