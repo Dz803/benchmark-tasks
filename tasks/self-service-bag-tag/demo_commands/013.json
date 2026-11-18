@@ -1,0 +1,108 @@
+{
+  "id": 13,
+  "side": "right",
+  "name": "measured receiving grasp after left flip",
+  "waypoints": [
+    {
+      "duration": 1.5,
+      "pos": [
+        0.2273196334838867,
+        -0.2243302780389786,
+        1.0534975719451904
+      ],
+      "approach": [
+        1,
+        0,
+        0
+      ],
+      "closing": [
+        0,
+        0.38,
+        -0.925
+      ],
+      "finger": -0.012,
+      "label": "measured reachable right grasp"
+    },
+    {
+      "duration": 1.5,
+      "pos": [
+        0.2873196334838867,
+        -0.14433027803897858,
+        1.0334975719451904
+      ],
+      "approach": [
+        1,
+        0,
+        0
+      ],
+      "closing": [
+        0,
+        0.38,
+        -0.925
+      ],
+      "finger": -0.012,
+      "label": "measured reachable right grasp"
+    },
+    {
+      "duration": 1.5,
+      "pos": [
+        0.3273196334838867,
+        -0.14433027803897858,
+        1.0334975719451904
+      ],
+      "approach": [
+        1,
+        0,
+        0
+      ],
+      "closing": [
+        0,
+        0.38,
+        -0.925
+      ],
+      "finger": -0.012,
+      "label": "measured reachable right grasp"
+    },
+    {
+      "duration": 1,
+      "pos": [
+        0.3273196334838867,
+        -0.14433027803897858,
+        1.0334975719451904
+      ],
+      "approach": [
+        1,
+        0,
+        0
+      ],
+      "closing": [
+        0,
+        0.38,
+        -0.925
+      ],
+      "finger": 0,
+      "label": "measured reachable right grasp"
+    },
+    {
+      "duration": 0.8,
+      "pos": [
+        0.3273196334838867,
+        -0.14433027803897858,
+        1.0334975719451904
+      ],
+      "approach": [
+        1,
+        0,
+        0
+      ],
+      "closing": [
+        0,
+        0.38,
+        -0.925
+      ],
+      "finger": 0,
+      "label": "measured reachable right grasp"
+    }
+  ],
+  "measure_panel": 1
+}
