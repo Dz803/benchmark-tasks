@@ -1,0 +1,9 @@
+{
+  "evidence_type": "offline audit of recorded telemetry; physical provenance still requires code/video review",
+  "telemetry_sha256": "77a3960ed9700d4bef2c8fffb1356941610f5829454d772cd939d555fac00f0e",
+  "samples": 146,
+  "score": 0.0,
+  "invalid_reason": null,
+  "measured_reversal_deg": {},
+  "windows": []
+}

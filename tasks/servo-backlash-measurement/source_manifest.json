@@ -1,0 +1,24 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "LAYOUT.md": "8bd9da2ba039b7000a26a5d24ee3380cfa7a298c2e9815c23f2b316211ac810d",
+    "README.md": "e5584222845893b4a757e564d049a560177ed93e879e4491bde217653926b812",
+    "demo_actions.json": "64a9db0028740322de117e663442d0df62bdd0f4dc9912659068b9e7c43d0d29",
+    "evidence/demo_audit.json": "4543e99da29e0f518f5be9bc596dcf0025a6d9c5ede0ce172f5d68e86a080a75",
+    "evidence/demo_telemetry.json": "8e0efc1d2695a7d0bda0959d7bd66e788f6834cd327cf441c7b049e1c270aeef",
+    "evidence/lever_push_audit.json": "b67e635caddef11e216ade1f4dfdde8eff6271887725e4efd703e92c1a104b9e",
+    "full_demo.py": "d17bac54cd8aba53f40236969f69be15afa43d508ecdd9685b4a3b189142943a",
+    "partkit.py": "d0ce57a0c7e2cac1e8f08fcbd32c580f31e6507d667b7ee70dbf18c6d4b8b52a",
+    "readout_texture.py": "860ec5c6046df5577f8182fd52d536db5592169578b86b13b2cea751fe3a54fe",
+    "run_model.py": "b6ef4d73f9efbd9a8e43f2f79a154d7d22737e9cd12a7937989481c369e9f318",
+    "runtime.py": "6fc923329d8121a3232393e8b0e924d83fffba19b41f82ba92c6ef7a107370d7",
+    "scorer.py": "f7f256543fb06365ded0e4c14462d63dd70608c395123ed1b220cda1dbfb72a6",
+    "source_assets/manifest.json": "62f1843ce454bbff22f94cfd9f076dc3bbf63865a947d5c52bbd8938509b85d7",
+    "source_assets/recorder_fixed_scales.png": "2f7d7eae15e56ae0a4b94885d812b480724121475dca45837b1bbef2679bfc4b",
+    "source_assets/servo_holder_single.stl": "d0b6c829f54f3184a3ca442bc15853e3403afc72f8294960fb4d0b37ce1b6f79",
+    "source_assets/test_lever_100mm_single.stl": "659ac9cf5486293a2f15f852cd44015b84822bc3e4648c0e9a16f702ef519933",
+    "task.json": "bf601e165669a1dbdfeba22f9f7da9d099341658008166fe83bee8665106a166",
+    "task.py": "985fa2fd2699ae0d3d6f1d79e368d6d7457050611463f0755a6f61b10d106f93",
+    "verify_rollout.py": "48f39ffd380ba8c16e966c2d1fa041a7640c3ce44bc02c5379a16b88c67ae258"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "evidence_type": "offline audit of recorded telemetry; physical provenance still requires code/video review",
+  "telemetry_sha256": "8e0efc1d2695a7d0bda0959d7bd66e788f6834cd327cf441c7b049e1c270aeef",
+  "samples": 268,
+  "score": 1.0,
+  "invalid_reason": null,
+  "measured_reversal_deg": {
+    "loaded": 4.026227678571429,
+    "unloaded": 1.4020647321428572
+  },
+  "windows": [
+    {
+      "direction": "right",
+      "stage": "loaded",
+      "start": 5.4,
+      "end": 7.4,
+      "samples": 21
+    },
+    {
+      "direction": "right",
+      "stage": "unloaded",
+      "start": 8.6,
+      "end": 10.6,
+      "samples": 21
+    },
+    {
+      "direction": "left",
+      "stage": "loaded",
+      "start": 16.5,
+      "end": 18.5,
+      "samples": 21
+    },
+    {
+      "direction": "left",
+      "stage": "unloaded",
+      "start": 19.6,
+      "end": 21.6,
+      "samples": 21
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "servo_holder_single.stl",
+    "git_blob_sha": "fd0d3d4a4eb3d2730e94e880e6f2d1e9ab02c18b",
+    "url": "https://raw.githubusercontent.com/roboninecom/Measuring-Backlash-in-Popular-UART-Servos/main/cad/servo_holder_single.stl",
+    "bytes": 106384,
+    "license": "CC-BY-4.0"
+  },
+  {
+    "name": "test_lever_100mm_single.stl",
+    "git_blob_sha": "61849bbf6233973da81f7ab1e5d9b5a4848c5033",
+    "url": "https://raw.githubusercontent.com/roboninecom/Measuring-Backlash-in-Popular-UART-Servos/main/cad/test_lever_100mm_single.stl",
+    "bytes": 315784,
+    "license": "CC-BY-4.0"
+  }
+]
