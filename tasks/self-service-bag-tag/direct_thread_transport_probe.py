@@ -137,31 +137,53 @@ def main(out):
                     centre=np.asarray(run.state()['panel_xyz'][int(cmd['measure_panel'])])
                     delta=centre-np.array([.013,0,0])-np.asarray(cmd['waypoints'][-1]['pos'])
                     for w in cmd['waypoints']:w['pos']=(np.asarray(w['pos'])+delta).tolist()
+                if cmd.get('rotate_held_endpoint'):
+                    p0,R0=ik.tcp_pose(current('right')[:6],station.BASES['right'])
+                    turn_R=frame([.5,.8660254,0],[0,0,1])
+                    cmd['waypoints']=[dict(duration=t,pos=p0.tolist(),approach=R[:,2].tolist(),closing=R[:,0].tolist(),finger=f,label=label)
+                        for t,R,f,label in [(.4,R0,-.004,'loosen before changing approach'),(2.,turn_R,-.004,'turn open jaws around supported endpoint'),(.5,turn_R,0.,'regrasp without twisting strip'),(.4,turn_R,0.,'settle')]]
+                if cmd.get('press_endpoint_pair'):
+                    from scipy.spatial.transform import Rotation
+                    state=run.state();xyz=np.array(state['panel_xyz'])
+                    normal=Rotation.from_quat(state['panel_quat_xyzw'][0]).as_matrix()[:,2]
+                    p0,_=ik.tcp_pose(current('right')[:6],station.BASES['right'])
+                    target=p0+xyz[9]+.0012*normal-xyz[0];pre=target-np.array([0,.045,0])
+                    press_R=frame([.5,.8660254,0],[0,0,1])
+                    stage('right',[W(2.,pre,press_R,0.,'approach second layer'),W(.3,pre,press_R,-.004,'open for two layers')],'open receiving jaws')
+                    state=run.state();xyz=np.array(state['panel_xyz'])
+                    normal=Rotation.from_quat(state['panel_quat_xyzw'][0]).as_matrix()[:,2]
+                    p0,_=ik.tcp_pose(current('right')[:6],station.BASES['right'])
+                    target=p0+xyz[9]+.0012*normal-xyz[0]
+                    stage('right',[W(1.5,target,press_R,-.004,'align two layers using measured poses')],'align inside receiving jaws')
+                    g=run.state()['closure']
+                    if g['overlap_m2']<.0006 or g['normal_dot']<.985:
+                        raise RuntimeError('Layers not aligned inside jaws; do not close')
+                    cmd['waypoints']=[dict(duration=t,pos=target.tolist(),approach=[.5,.8660254,0],closing=[0,0,1],finger=0.,label=label) for t,label in
+                        [(.8,'deliberately pinch aligned patches'),(3.,'sustain pinch at sealed overlap before release')]]
                 if cmd.get('release_ready'):
                     side=cmd['side'];p0,R0=ik.tcp_pose(current(side)[:6],station.BASES[side])
                     pr,Rr=ik.tcp_pose(READY,station.BASES[side]);sg=1 if side=='left' else -1
+                    opening=-.025 if side=='right' else -.006
+                    release_p=p0+(.025*R0[:,0] if side=='right' else np.zeros(3))
+                    back=release_p+(np.array([-.06,-.12,.045]) if side=='right' else np.array([-.08,0.,.025]))
                     cmd['waypoints']=[dict(duration=t,pos=p.tolist(),approach=R[:,2].tolist(),closing=R[:,0].tolist(),finger=f,label='release then withdraw and return ready')
-                        for t,p,R,f in [(.7,p0,R0,-.006),(1.5,p0+[-.08,sg*.025,.025],R0,-.006),(1.5,np.array([.24,sg*.26,1.2]),R0,-.047),(2.,pr,Rr,-.047),(3.,pr,Rr,-.047)]]
+                        for t,p,R,f in [(1.,release_p,R0,opening),(2. if side=='right' else 1.5,back,R0,opening),(2.,back,frame([1,0,0],[0,0,-sg]),-.047),(1.5,np.array([.24,sg*.26,1.2]),frame([1,0,0],[0,0,-sg]),-.047),(2.,pr,Rr,-.047),(3.,pr,Rr,-.047)]]
                 (out/'commands').mkdir(exist_ok=True)
                 (out/'commands'/path.name).write_text(json.dumps(cmd,indent=2))
                 waypoints = [W(w['duration'], w['pos'], frame(w['approach'], w['closing']),
                                w['finger'], w['label']) for w in cmd['waypoints']]
                 stage(cmd['side'], waypoints, cmd.get('name', path.stem))
-                if cmd.get('ensure_adhesive'):
-                    from scipy.spatial.transform import Rotation
-                    for attempt in range(3):
-                        state=run.state();g=state['closure']
-                        if g.get('bonded'):break
-                        if g['normal_dot']<.985 or g['overlap_m2']<.00060:
-                            raise RuntimeError('Adhesive faces not aligned; do not release')
-                        normal=Rotation.from_quat(state['panel_quat_xyzw'][0]).as_matrix()[:,2]
-                        p0,R0=ik.tcp_pose(current('right')[:6],station.BASES['right'])
-                        correction=float(np.clip(g['face_gap_m']+.0011,-.004,.004))
-                        target=p0+correction*normal
-                        stage('right',[W(1.0,target,R0,0,'measured adhesive contact approach'),W(.8,target,R0,0,'hold adhesive contact')],f'contact correction {attempt+1}')
-                    if not run.state()['closure'].get('bonded'):
-                        raise RuntimeError('Adhesive did not bond; preserve grips rather than release')
-            run.save({'stage': 'replayed_contact_sequence_closure_not_scored', 'phases': reports})
+                if cmd.get('ensure_adhesive') and not run.state()['closure'].get('bonded'):
+                    raise RuntimeError('Physical pressing failed; keep evidence and do not release')
+            # Record a substantial live terminal interval so sampled review
+            # frames show released attachment, rather than the last manipulation.
+            run.go(160,hold('left'),hold('right'),snaps=(run.step_i+160,),video_every=4)
+            last=run.state()['closure']
+            valid=last.get('score')==1. and last.get('hands_clear') and last.get('hands_open')
+            run.save({'stage': ('staged_press_diagnostic_complete' if staged else
+                               'continuous_full_demo_complete') if valid else 'demo_incomplete',
+                      'terminal_success':bool(valid),'phases':reports})
+            if not valid:raise RuntimeError('Final released stable loop not verified')
         # Keep this same physical rollout for bounded, state-informed feed
         # commands rather than repeating printer extraction for each probe.
         commands = os.environ.get('BAGTAG_COMMAND_FILE')

@@ -30,7 +30,7 @@ for invalid_index in (0,4):
  assert stable==0
  args[invalid_index]=True
  stable=stable+.05 if s.final_valid(*args) else 0.
- assert s.outcome_score(True,True,False,True,True,stable,True)==.85
+ assert s.outcome_score(True,True,False,True,True,stable,True)==.75
 s.reset();s.STATE['bonded']=True
 s.on_joint_break('/World/printer/frangible_joint');assert not s.STATE['broken']
 s.on_joint_break(s.JOINT_PATH);assert s.STATE['broken']

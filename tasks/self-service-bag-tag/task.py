@@ -157,7 +157,8 @@ for i in range(SEGMENTS):
     panel = part(
         name, (x, TAG_Y, TAG_Z),
         [box(0, 0, 0, SEGMENT_LENGTH, TAG_WIDTH,
-             TAG_COLLISION_THICKNESS, WHITE)],
+             TAG_COLLISION_THICKNESS, WHITE)] +
+        ([box(0,0,(-1 if i==0 else 1)*.00055,.039,.046,.0001,BLUE)] if i in (0,9) else []),
         mass=.002, friction=1.25,
         hinge_attachment=hinge,
         # Presenter rollers release the cut tag under a light ~2 N pull; a
@@ -168,11 +169,10 @@ for i in range(SEGMENTS):
     if i in (1, 5):
         panel.meta["visual_boxes"] = tuple(barcode_boxes())
     # Mark the actual mating faces: blue adhesive 09 front, blue receiver 00 back.
-    # Visual only, flush with the existing 1 mm collision sheet.
+    # The marked 0.1 mm surface patch is a collider so native contact points
+    # distinguish pressing the adhesive from touching the uncoated outer rim.
     if i in (0, 9):
         face = -1 if i == 0 else 1
-        panel.meta["visual_boxes"] = (
-            box(0, 0, face * .00051, .039, .046, .00002, BLUE),)
     if i == 8:
         panel.meta["visual_boxes"] = (
             box(0, 0, .00065, .022, .030, .0004, YELLOW),)

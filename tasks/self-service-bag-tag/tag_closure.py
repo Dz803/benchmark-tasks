@@ -1,7 +1,7 @@
 """Contact-gated adhesive approximation and outcome scoring; no pose writes.
 
 The designated front patch on panel09 adheres to panel00's designated back patch after
-aligned surface contact for 0.4 s. Chemistry and peel mechanics are simplified
+aligned, physically pressed surface contact for 0.4 s. Chemistry and peel mechanics are simplified
 as a breakable fixed joint, created at the *existing* relative transform.
 """
 import numpy as np
@@ -10,11 +10,17 @@ from scipy.spatial.transform import Rotation
 STATE = {}
 JOINT_PATH = '/World/baggage_tag_adhesive'
 _EVENT_SUB = None
+MIN_PRESS_N = 1.0
+PRESS_SECONDS = .4
+RELEASE_SECONDS = .25
+SUCCESS_SECONDS = 2.
 
 
 def reset(environment=None):
     global _EVENT_SUB
     _EVENT_SUB = None
+    import press_contacts
+    press_contacts.reset()
     STATE.clear()
     STATE.update(contact_s=0., stable_s=0., bonded=False, broken=False,
                  extracted=False, threaded=False, score=0., diagnostics={})
@@ -22,6 +28,34 @@ def reset(environment=None):
         from isaaclab.sim.utils.stage import get_current_stage
         stage=get_current_stage()
         if stage.GetPrimAtPath(JOINT_PATH): stage.RemovePrim(JOINT_PATH)
+        import carb
+        carb.settings.get_settings().set_bool('/physics/disableContactProcessing', False)
+
+
+def patch_press_force(xyz, rotations, contacts, dt):
+    """Mean compressive force on designated faces during the sampled physics substep.
+
+    Points must lie within both printed patches, with a surface-normal contact.
+    Normal impulses divided by elapsed simulated time are forces, not counts.
+    """
+    if not np.isfinite(dt) or dt <= 0:
+        return 0.
+    total = 0.
+    for point, normal, impulse in contacts:
+        if not all(np.all(np.isfinite(v)) for v in (point, normal, impulse)):
+            continue
+        if abs(normal @ rotations[0,:,2]) < .98:
+            continue
+        local = [rotations[i].T @ (point-xyz[i]) for i in (0,9)]
+        if all(abs(p[0]) <= .01951 and abs(p[1]) <= .02301 and abs(p[2]) <= .002 for p in local):
+            total += abs(float(impulse @ normal))
+    return total / dt
+
+
+def press_dwell(previous, geometry_contact, speed, force, dt):
+    valid = (np.all(np.isfinite([previous, speed, force, dt])) and
+             previous >= 0. and dt > 0. and 0. <= speed < .04)
+    return previous+dt if valid and geometry_contact and force>=MIN_PRESS_N else 0.
 
 
 def geometry(xyz, rotations, bar_x=.350, bar_z=1.0965):
@@ -124,6 +158,8 @@ def monitor_bond_breaks():
 
 
 def create_bond(environment, xyz, rotations):
+    if STATE.get('contact_s', 0.) + 1e-9 < PRESS_SECONDS:
+        raise RuntimeError('Bond requires verified physical pressing dwell')
     from pxr import Gf,Sdf,UsdPhysics
     from isaaclab.sim.utils.stage import get_current_stage
     stage=get_current_stage();paths={}
@@ -159,14 +195,22 @@ def step(environment):
     history.append(panel_corners(xyz,R))
     if len(history)>6: history.pop(0)
     speed=motion_speed(history,dt)
+    # Headless GPU simulation does not dispatch contact subscription events.
+    # Poll the latest physics substep explicitly, using its dt (not control dt).
+    import press_contacts
+    # The sealed pair has collisions disabled. PhysX may retain its last
+    # manifold, so do not report cached pre-bond impulses as live pressure.
+    contacts = [] if STATE['bonded'] else press_contacts.read()
+    press_n = patch_press_force(xyz, R, contacts, float(environment.unwrapped.cfg.sim.dt))
     # Extraction uses the actual outlet plane; no policy flags or phase IDs.
-    STATE['extracted']=bool(np.max(xyz[:,0])<.465)
+    STATE['extracted']=bool(np.max(panel_corners(xyz,R)[:,:,0])<.465)
     if g['under'] and np.min(xyz[:,1])<-.025 and np.max(xyz[:,1])>.025:
         STATE['threaded']=True
     if not STATE['bonded']:
-        STATE['contact_s']=STATE['contact_s']+dt if g['contact'] and speed<.04 else 0.
-        if STATE['contact_s']>=.4:
+        STATE['contact_s']=press_dwell(STATE['contact_s'],g['contact'],speed,press_n,dt)
+        if STATE['contact_s']+1e-9>=PRESS_SECONDS:
             create_bond(environment,xyz,R);STATE['bonded']=True
+            STATE['bond_press_n']=press_n
     if g['max_hinge_gap_m']>.008 or (STATE['bonded'] and
             (g['overlap_m2']<.00060 or g['normal_dot']<.985 or
              not -.003<=g['face_gap_m']<=.001)):
@@ -195,13 +239,16 @@ def step(environment):
         STATE['stable_s']=0.
     else:
         STATE['stable_s']+=dt
-    released_stable=final and STATE['stable_s']>=.25
+    released_stable=final and STATE['stable_s']>=RELEASE_SECONDS
     value=outcome_score(STATE['extracted'], STATE['bonded'], STATE['broken'],
                         g['linked'], released_stable, STATE['stable_s'], g['barcode_outward'])
     STATE['score']=value
     STATE['diagnostics']={**g,'speed_m_s':speed,'raw_solver_speed_m_s':raw_speed,'hands_clear':bool(clear),'hands_open':bool(opened),
                          'bonded':STATE['bonded'],'broken':STATE['broken'],
                          'bond_break_event':STATE.get('bond_break_event',False),'contact_s':STATE['contact_s'],
+                         'patch_press_n':press_n,'patch_contact_points':len(contacts),
+                         'pair_force_n':sum(float(np.linalg.norm(v[2])) for v in contacts)/float(environment.unwrapped.cfg.sim.dt),
+                         'bond_press_n':STATE.get('bond_press_n',0.),
                          'stable_s':STATE['stable_s'],'score':value}
 
 
@@ -209,9 +256,9 @@ def outcome_score(extracted, bonded, broken, linked, released_stable, stable_s, 
     """Current physical outcome only; extraction/threading alone earn nothing."""
     if broken or not (extracted and bonded and linked and barcode_outward):
         return 0.
-    if not released_stable:
+    if not released_stable or not np.isfinite(stable_s) or stable_s < RELEASE_SECONDS:
         return .75
-    return 1. if stable_s >= 2. else .85
+    return 1. if stable_s >= SUCCESS_SECONDS else .85
 
 
 def score(_objects):return float(STATE.get('score',0.))

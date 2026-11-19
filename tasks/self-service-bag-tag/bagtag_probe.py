@@ -95,6 +95,9 @@ class Run:
 
         self.out = out
         out.mkdir(parents=True, exist_ok=False)
+        import hashlib
+        (out/'source_at_launch.json').write_text(json.dumps({n:hashlib.sha256((HERE/n).read_bytes()).hexdigest()
+            for n in ('task.py','tag_closure.py','press_contacts.py','partkit.py','direct_thread_transport_probe.py')},indent=2))
         self.emb = yam_arena_embodiment(task=str(HERE / "task.py"), object_jitter=0, control_hz=20,
                                         cam_width=cam_w, cam_height=cam_h, top_cam="demo")
         self.obs = self.emb.reset(Scene(id=run_id, instruction=self.emb.task.module.INSTRUCTION,
@@ -167,6 +170,11 @@ class Run:
                 vdir = self.out / "frames"
                 vdir.mkdir(exist_ok=True)
                 imageio.imwrite(vdir / f"top_{self.step_i:05d}.png", np.asarray(self.obs.images["top_cam"]))
+                # Opt-in wrist close-up frames for the video inset (recording only).
+                if os.environ.get('BAGTAG_VIDEO_WRIST'):
+                    for cam in ("right_cam", "left_cam"):
+                        imageio.imwrite(vdir / f"{cam.split('_')[0]}wrist_{self.step_i:05d}.png",
+                                        np.asarray(self.obs.images[cam]))
         return self.step_i - start
 
     def save(self, summary):

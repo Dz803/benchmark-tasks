@@ -84,16 +84,23 @@ is required. This is not barcode decoding or an exhaustive occlusion proof. See 
 
 ## Fidelity
 
+The marked end faces include separate 39 x 46 x 0.1 mm collision patches so
+pressing on the coating can be distinguished from contact at the uncoated rim.
+This thickness is a numerical approximation, not measured coating thickness.
 The strip uses colliding rigid panels joined by hinges; it is not a continuous
 paper/cloth solver. Collision thickness is 1 mm and total mass 20 g, compared
-with the reference stock's 160–170 micrometres and approximately 3.4–3.7 g at
-this area. Friction and hinge drives are simulation tuning, not product
+with the reference [PRESSURETAC BT 28/3](https://sihl.com/en/products/pressure-tac-bt-283/) stock's 170 ± 12 micrometres and 177 ± 8 g/m² (about 3.81 g at
+this area). Friction and hinge drives are simulation tuning, not product
 measurements. They preserve feeding, bending, catching and regrasping, but do
 not establish real material precision or hardware success probability.
 
 The adhesive approximation requires aligned correct faces (normal dot >0.985),
 at least 600 mm² overlap, surface contact within the 1 mm collision-sheet solver
-margin, low relative observed motion and 0.4 seconds of contact. It then creates
+margin, low observed motion, and actual opposing normal contact force of at least
+1 N on the designated patches for 0.4 seconds. Force comes from GPU-native PhysX
+contact impulses divided by the physics timestep, sampled at each control step;
+alignment or proximity without physical pressure cannot create a seal. The 1 N
+threshold is an explicit simulation approximation, not a certified adhesive specification. It then creates
 a breakable paper-to-paper joint at the existing relative pose: no snapping,
 object pose correction, attachment to a gripper or force-free motion is applied.
 The 8 N / 0.15 Nm break limits and 2 N presenter release are representative tuning
@@ -111,21 +118,24 @@ versions are listed in `runtime_versions.json`.
 From this task folder, in that activated environment:
 
 ```bash
-BAGTAG_RENDER_STRIDE=4 BAGTAG_REPLAY_COMMANDS=demo_commands BAGTAG_REPLAY_LIMIT=31 \
+BAGTAG_RENDER_STRIDE=4 BAGTAG_VIDEO_WRIST=1 BAGTAG_REPLAY_COMMANDS=demo_commands BAGTAG_REPLAY_LIMIT=31 \
   python direct_thread_transport_probe.py runs/demo
 python finalize_demo.py runs/demo
+python compose_closeup_video.py runs/demo   # top view + wrist close-ups
 python test_score_outcomes.py
 python test_score_geometry.py
 python test_hold_window.py
+python test_press_gate.py
 BAGTAG_RENDER_STRIDE=4 BAGTAG_NEGATIVE=drop_after_extraction \
   python direct_thread_transport_probe.py runs/drop-control
 ```
 
 The demo is one continuous reset, using simulator poses to choose robot targets.
-It does not restore object state. At 20 Hz its prior validated trajectory took
-2,452 steps (122.6 simulated seconds). Actual wall time depends on rendering.
-The new run with the final scorer is validated; see `VALIDATION.md` for
-final results. Rendering every fourth step affects recording only; Dream uses
+It does not restore object state. The revised continuous demonstration took
+2,756 steps (137.8 simulated seconds) at 20 Hz and scored 1.0, with 13.8 seconds
+of released stability. The coated-patch force at seal formation was 2.919 N.
+Actual wall time depends on rendering. See `VALIDATION.md` for evidence and
+limits. The revised Dream-1-beta session scored 0.0 over the full 4,800 steps; it did not extract the tag. Rendering every fourth step affects recording only; Dream uses
 its normal camera observation cadence.
 
 Dream (one episode, 4,800 control steps maximum):

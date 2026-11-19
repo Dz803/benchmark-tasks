@@ -1,47 +1,7 @@
 {
   "id": 16,
   "side": "right",
-  "name": "present matching patch horizontally",
-  "waypoints": [
-    {
-      "duration": 2,
-      "pos": [
-        0.335,
-        -0.105,
-        1.145
-      ],
-      "approach": [
-        1,
-        0,
-        0
-      ],
-      "closing": [
-        0,
-        -1,
-        0
-      ],
-      "finger": 0,
-      "label": "present matching patch horizontally"
-    },
-    {
-      "duration": 2,
-      "pos": [
-        0.335,
-        -0.105,
-        1.145
-      ],
-      "approach": [
-        1,
-        0,
-        0
-      ],
-      "closing": [
-        0,
-        0,
-        1
-      ],
-      "finger": 0,
-      "label": "present matching patch horizontally"
-    }
-  ]
+  "name": "turn held endpoint for side press",
+  "rotate_held_endpoint": true,
+  "waypoints": []
 }

@@ -4,10 +4,10 @@ from pathlib import Path
 from tag_closure import outcome_score
 cases=[]
 for extracted,bonded,broken,linked,released in itertools.product((False,True),repeat=5):
-    for seconds in (0.,1.99,2.,3.):
+    for seconds in (0.,.249,.25,1.99,2.,3.):
         value=outcome_score(extracted,bonded,broken,linked,released,seconds)
         if broken or not all((extracted,bonded,linked)):assert value==0
-        elif not released:assert value==.75
+        elif not released or seconds<.25:assert value==.75
         elif seconds<2:assert value==.85
         else:assert value==1.
         cases.append(dict(extracted=extracted,bonded=bonded,broken=broken,linked=linked,released=released,stable_s=seconds,score=value))

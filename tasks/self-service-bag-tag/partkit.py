@@ -175,6 +175,8 @@ def _spawn_part(prim_path: str, cfg, translation=None, orientation=None, **kwarg
         xform.AddOrientOp(precision=UsdGeom.XformOp.PrecisionDouble).Set(Gf.Quatd(1, 0, 0, 0))
         prim = xform.GetPrim()
         UsdPhysics.RigidBodyAPI.Apply(prim)
+        if spec.name in ('tag_panel_00', 'tag_panel_09'):
+            PhysxSchema.PhysxContactReportAPI.Apply(prim).CreateThresholdAttr(0.)
         UsdPhysics.MassAPI.Apply(prim).CreateMassAttr(mass)
         rb = PhysxSchema.PhysxRigidBodyAPI.Apply(prim)
         rb.CreateMaxDepenetrationVelocityAttr(1.0)
