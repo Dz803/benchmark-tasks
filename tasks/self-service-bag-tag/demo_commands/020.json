@@ -1,0 +1,35 @@
+{
+  "id": 20,
+  "side": "right",
+  "name": "press again firmly to complete the seal",
+  "fingertip_press": [
+    0.354,
+    0.065
+  ],
+  "fixed_xy": true,
+  "approach": [
+    0.354,
+    0.612,
+    -0.707
+  ],
+  "closing": [
+    1,
+    0,
+    0
+  ],
+  "overtravel_m": 0.015,
+  "no_lift": true,
+  "slant_only": true,
+  "slant_backs": [
+    0.08,
+    0.06,
+    0.05,
+    0.04,
+    0.03
+  ],
+  "lift_back_m": 0.05,
+  "waypoints": [],
+  "ensure_adhesive": true,
+  "hold_s": 3.0,
+  "repeat_last": true
+}

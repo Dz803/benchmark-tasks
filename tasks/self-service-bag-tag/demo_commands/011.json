@@ -1,67 +1,14 @@
 {
   "id": 11,
   "side": "left",
-  "name": "raise opposite tail around handle",
-  "waypoints": [
-    {
-      "duration": 2,
-      "pos": [
-        0.334,
-        0.145,
-        1.1
-      ],
-      "approach": [
-        1,
-        0,
-        0
-      ],
-      "closing": [
-        0,
-        -1,
-        0
-      ],
-      "finger": 0,
-      "label": "raise tail outside suitcase"
-    },
-    {
-      "duration": 2,
-      "pos": [
-        0.334,
-        0.105,
-        1.14
-      ],
-      "approach": [
-        1,
-        0,
-        0
-      ],
-      "closing": [
-        0,
-        -1,
-        0
-      ],
-      "finger": 0,
-      "label": "raise tail outside suitcase"
-    },
-    {
-      "duration": 0.8,
-      "pos": [
-        0.334,
-        0.105,
-        1.14
-      ],
-      "approach": [
-        1,
-        0,
-        0
-      ],
-      "closing": [
-        0,
-        -1,
-        0
-      ],
-      "finger": 0,
-      "label": "raise tail outside suitcase"
-    }
-  ]
+  "name": "bring the tail side a little towards the middle",
+  "relative_move": [
+    [
+      0,
+      -0.04,
+      0.04
+    ]
+  ],
+  "seconds": 2.5,
+  "waypoints": []
 }

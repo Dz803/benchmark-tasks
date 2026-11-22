@@ -1,7 +1,7 @@
 {
   "id": 4,
   "side": "right",
-  "name": "side pinch emerged panel00",
+  "name": "side pinch emerged panel00 (measured)",
   "waypoints": [
     {
       "duration": 2.0,
@@ -20,7 +20,7 @@
         -0.118,
         0.993
       ],
-      "finger": -0.006,
+      "finger": -0.03,
       "label": "approach emerged end from width side"
     },
     {
@@ -40,7 +40,7 @@
         -0.118,
         0.993
       ],
-      "finger": -0.006,
+      "finger": -0.03,
       "label": "straddle panel00"
     },
     {
@@ -83,5 +83,11 @@
       "finger": 0,
       "label": "hold both hands"
     }
-  ]
+  ],
+  "measure_panel_frame": 0,
+  "closing_sign": -1,
+  "along_panel_m": 0.00639,
+  "tcp_back_m": 0.005,
+  "open_finger": -0.03,
+  "approach_s": 2.0
 }

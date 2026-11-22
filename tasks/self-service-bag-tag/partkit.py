@@ -175,13 +175,19 @@ def _spawn_part(prim_path: str, cfg, translation=None, orientation=None, **kwarg
         xform.AddOrientOp(precision=UsdGeom.XformOp.PrecisionDouble).Set(Gf.Quatd(1, 0, 0, 0))
         prim = xform.GetPrim()
         UsdPhysics.RigidBodyAPI.Apply(prim)
-        if spec.name in ('tag_panel_00', 'tag_panel_09'):
+        if spec.name.startswith('tag_panel_'):   # every panel's adhesive back is contact-gated
             PhysxSchema.PhysxContactReportAPI.Apply(prim).CreateThresholdAttr(0.)
         UsdPhysics.MassAPI.Apply(prim).CreateMassAttr(mass)
         rb = PhysxSchema.PhysxRigidBodyAPI.Apply(prim)
         rb.CreateMaxDepenetrationVelocityAttr(1.0)
         rb.CreateSolverPositionIterationCountAttr(32)
         rb.CreateAngularDampingAttr(1.0)  # light damping: small stiff parts otherwise chatter in tight fits
+        if spec.meta.get("linear_damping") is not None:   # e.g. air drag on thin paper (see task.py)
+            rb.CreateLinearDampingAttr(float(spec.meta["linear_damping"]))
+        if spec.meta.get("solver_iterations") is not None:   # light hinged panels next to heavy gripper contacts
+            pos_it, vel_it = spec.meta["solver_iterations"]
+            rb.GetSolverPositionIterationCountAttr().Set(int(pos_it))
+            rb.CreateSolverVelocityIterationCountAttr(int(vel_it))
         return prim
 
     def collide(prim, color):

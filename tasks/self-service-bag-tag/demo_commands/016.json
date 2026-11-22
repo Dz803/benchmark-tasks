@@ -1,7 +1,7 @@
 {
   "id": 16,
   "side": "right",
-  "name": "turn held endpoint for side press",
-  "rotate_held_endpoint": true,
+  "name": "turn the held end over (back down) in place",
+  "wrist_roll": 3.141592653589793,
   "waypoints": []
 }

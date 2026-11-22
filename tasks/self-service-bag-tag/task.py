@@ -22,7 +22,8 @@ BAG_YAW = math.pi / 2
 KIOSK_XY = (.675, -.265)
 INSTRUCTION = (
     "Attach the printed baggage tag securely to the suitcase's long-side "
-    "handle, with the barcode facing out. Press the designated ends together, "
+    "handle, with the barcode facing out. Its back is self-adhesive: loop it "
+    "through the handle, press one end's back onto the other end, "
     "release the tag and withdraw both arms."
 )
 
@@ -41,6 +42,7 @@ WHITE = (.94, .95, .90)
 BLACK = (.035, .045, .055)
 YELLOW = (.90, .67, .12)
 BLUE = (.13, .39, .65)
+ADHESIVE_BACK = (.86, .84, .74)   # faint beige: the self-adhesive back
 
 
 def box(x, y, z, sx, sy, sz, color, yaw=None, tilt=None):
@@ -87,7 +89,7 @@ bag = part(
         box(0, .010, .166, .171, .380, .306, NAVY),
         box(HANDLE_X, HANDLE_Y - .085, .310, .032, .027, .016, HANDLE),
         box(HANDLE_X, HANDLE_Y + .085, .310, .032, .027, .016, HANDLE),
-    ], mass=8.0, fixed_to_world=True, friction=.15, yaw=BAG_YAW,
+    ], mass=8.0, fixed_to_world=True, friction=float(os.environ.get("BAGTAG_CASE_FRICTION", ".4")), yaw=BAG_YAW,
     sliders=(Slider("carry_handle", (0.0, 0.0, 0.0),
                     boxes=handle_arch_boxes(),
                     travel=.040, rate=90.0, damping=5.0, mass=.10,
@@ -108,27 +110,47 @@ bag.meta["slider_visual_usd"] = {
 bag.meta["invisible_colliders"] = True
 bag.meta["friction_combine_mode"] = "min"
 
-# Representative cold-seal contact patches: front of panel09 to back of
-# panel00. This is a declared adhesive approximation, not a calibrated product.
-# Actual 160–170 um stock is represented by 1 mm collision sheets so PhysX can
-# resolve the gripper contacts. No liner, staple or pre-joined ends are present.
-# The 430 x 50 mm representative strip leaves the printer printed-side up.
-SEGMENTS = 10
-SEGMENT_LENGTH = .043
-TAG_WIDTH = .050
+# Reference stock: a 2 x 21 in (50.8 x 533 mm) thermal self-tag baggage tag with a
+# self-adhesive back (POS Supply AIR-SLFTAG21RL-SS, 175 tags per roll; see README).
+# The printed thermal face is the front (+z); the whole back (-z) is self-adhesive
+# and bonds only to the tag itself, never to the case, handle or grippers. The
+# simulated stock is 1 mm collision sheets so PhysX can resolve the gripper
+# contacts. No liner, staple or pre-joined ends are present. The strip leaves the
+# printer printed-side up.
+from tag_dims import SEGMENTS, SEGMENT_LENGTH, TAG_WIDTH, BARCODE_PANELS, MARK_PANEL
 TAG_COLLISION_THICKNESS = .001
-# Hinge drive stiffness and damping, USD units per degree. 2.3e-4 N·m/deg
-# (0.013 N·m/rad per 43 mm hinge) gives the 2 g panels the same weight-to-
-# stiffness ratio as ~0.36 g of 170 um stock with EI ≈ 1e-4 N·m², so the
-# strip droops like paper; much stiffer drives on these light bodies leave
-# alternate hinges unconverged and limp.
-HINGE_STIFFNESS = float(os.environ.get("BAGTAG_HINGE_K", "2.3e-4"))
-HINGE_DAMPING = float(os.environ.get("BAGTAG_HINGE_C", "2e-5"))
-# A straight 340 mm internal feed channel retains the trailing stock while
-# about 90 mm of the leading end emerges from the printer slot. There is no
+# Real-scale stock. Mass: 177 g/m2 bag-tag stock (Sihl PRESSURETAC BT 28/3 datasheet, 170 um)
+# over 50.8 x 533 mm = 4.8 g, i.e. 0.48 g per panel. Bending stiffness: baggage-tag laminates
+# have a Clark stiffness (JIS P 8143) of 50-200, preferably 60-150 (Oji Paper bag-tag patent
+# WO2003027950A1). We use the preferred lower value, 60 (BAGTAG_CLARK; was 150 in rev3 drafts): Clark
+# stiffness S = L^3/100 (L in cm), so a 18.2 cm critical length, i.e. a
+# self-weight buckling bending stiffness EI = w g L^3 / 7.837 ~ 6.8e-5 N m2 for 177 g/m2 and
+# 50.8 mm width (our conversion, not a value stated in the patent; EI is proportional to S). A
+# discretised beam hinge between panels of length L has k = EI / L: for 14 panels of 38.1 mm,
+# 1.8e-3 N m/rad = 3.1e-5 N m/deg, the same at every hinge; EI does not depend on the panel count.
+# Damping keeps the earlier damping-to-stiffness ratio. Values are USD units per degree.
+PANEL_MASS = float(os.environ.get("BAGTAG_PANEL_MASS", repr(4.8e-3 / SEGMENTS)))
+# Air drag. PhysX has no aerodynamics, so a hanging strip would swing undamped. Paper has a large
+# area per mass: flat-plate drag F = 1/2 rho Cd A v^2 with rho = 1.204 kg/m3 (air, 20 C), Cd = 1.17
+# (flat plate normal to the flow; Hoerner, Fluid-Dynamic Drag, 1965), A/m = 1/(177 g/m2), linearised
+# at v = 0.5 m/s, gives c = F/(m v) = 1/2 rho Cd v (A/m) ~ 2.0 1/s. A/m and hence c do not depend on
+# the panel count. Applied isotropically as PhysX linear damping (edge-on drag is smaller; this is
+# an approximation).
+# Paper surface friction coefficient. Paper-on-paper static friction is typically 0.3-0.5 (TAPPI T 815 /
+# T 549 inclined-plane and horizontal-plane tests); 0.5 is the upper end, used for paper against the
+# fingers, lid and itself. Earlier drafts used 1.25, which made released paper follow the open fingers.
+PAPER_FRICTION = float(os.environ.get("BAGTAG_PAPER_FRICTION", "1.25"))
+AIR_LINEAR_DAMPING = float(os.environ.get("BAGTAG_AIR_DAMPING", repr(round(.5 * 1.204 * 1.17 * .5 / .177, 2))))
+CLARK_STIFFNESS = float(os.environ.get("BAGTAG_CLARK", "60"))
+# 5.56e-5 N m/deg is k for Clark 150 with ten 53.3 mm panels; k scales with S and with 1/L.
+HINGE_STIFFNESS = float(os.environ.get("BAGTAG_HINGE_K", repr(5.56e-5 * SEGMENTS / 10 * CLARK_STIFFNESS / 150)))
+HINGE_DAMPING = float(os.environ.get("BAGTAG_HINGE_C", repr(4.85e-6 * SEGMENTS / 10 * CLARK_STIFFNESS / 150)))
+# A straight internal feed channel (lengthened by 110 mm for the 533 mm stock)
+# retains the trailing stock while about 90 mm of the leading end emerges from
+# the printer slot. There is no
 # exposed support rod; the free end can droop under its own weight.
-# All ten panels exist at reset; none are spawned or teleported on a pull.
-TAG_X0 = KIOSK_XY[0] + .165
+# All panels exist at reset; none are spawned or teleported on a pull.
+TAG_X0 = KIOSK_XY[0] + .165 + .103
 TAG_Y = KIOSK_XY[1]
 TAG_Z = TOP + .240
 
@@ -136,7 +158,7 @@ TAG_Z = TOP + .240
 def barcode_boxes():
     bars = []
     for i, width in enumerate((.0020, .0011, .0027, .0014, .0030, .0010, .0020)):
-        for side in (-1, 1):
+        for side in (1,):   # thermal print on the front (+z) only
             bars.append(box(-.014 + i * .0042, 0, side * .00065,
                             width, .033, .0004, BLACK))
     return bars
@@ -151,30 +173,29 @@ for i in range(SEGMENTS):
         (-SEGMENT_LENGTH / 2, 0, 0),
         (SEGMENT_LENGTH / 2, 0, 0),
         155.0, -155.0, 0.0, "Y",
-        .002 if i in (1, 9) else HINGE_STIFFNESS,
-        .00004 if i in (1, 9) else HINGE_DAMPING, .6,
+        HINGE_STIFFNESS, HINGE_DAMPING, .6,
     )
     panel = part(
         name, (x, TAG_Y, TAG_Z),
         [box(0, 0, 0, SEGMENT_LENGTH, TAG_WIDTH,
              TAG_COLLISION_THICKNESS, WHITE)] +
-        ([box(0,0,(-1 if i==0 else 1)*.00055,.039,.046,.0001,BLUE)] if i in (0,9) else []),
-        mass=.002, friction=1.25,
+        [],
+        mass=PANEL_MASS, friction=PAPER_FRICTION,
         hinge_attachment=hinge,
         # Presenter rollers release the cut tag under a light ~2 N pull; a
         # 1 mm sheet between closed YAM pads holds only about 4 N by friction.
         breakable_attachment=("self_bag_drop_kiosk", (*KIOSK_XY, TOP),
                               2.0, .4) if i == 0 else None,
     )
-    if i in (1, 5):
-        panel.meta["visual_boxes"] = tuple(barcode_boxes())
-    # Mark the actual mating faces: blue adhesive 09 front, blue receiver 00 back.
-    # The marked 0.1 mm surface patch is a collider so native contact points
-    # distinguish pressing the adhesive from touching the uncoated outer rim.
-    if i in (0, 9):
-        face = -1 if i == 0 else 1
-    if i == 8:
-        panel.meta["visual_boxes"] = (
+    # The self-adhesive back is drawn as a thin tinted layer (visual only).
+    back = (box(0, 0, -.00055, SEGMENT_LENGTH - .001, TAG_WIDTH - .001, .0001, ADHESIVE_BACK),)
+    panel.meta["linear_damping"] = AIR_LINEAR_DAMPING
+    # Numerical, not material: more solver iterations keep the 0.34 g hinged panels together when
+    # the grippers push on them (see VALIDATION).
+    panel.meta["solver_iterations"] = (int(os.environ.get("BAGTAG_POS_ITERS", "64")), int(os.environ.get("BAGTAG_VEL_ITERS", "8")))
+    panel.meta["visual_boxes"] = (tuple(barcode_boxes()) if i in BARCODE_PANELS else ()) + back
+    if i == MARK_PANEL:
+        panel.meta["visual_boxes"] = panel.meta["visual_boxes"] + (
             box(0, 0, .00065, .022, .030, .0004, YELLOW),)
     tag.append(panel)
 
@@ -185,13 +206,13 @@ kiosk = part(
         # The exterior is solid below and above a 21 mm internal feed gap.
         # The gap and front mouth are hollow collision geometry, not a visual
         # mask over a solid box; the full-size tag can slide out by contact.
-        box(0, 0, .105, .350, .145, .210, SILVER),
-        box(0, 0, .226, .350, .145, .012, SILVER),
-        box(0, 0, .294, .350, .145, .082, WHITE),
-        box(0, 0, .347, .350, .145, .080, WHITE),
-        box(0, -.069, .242, .350, .007, .030, SILVER),
-        box(0, .069, .242, .350, .007, .030, SILVER),
-        box(.172, 0, .242, .006, .145, .030, SILVER),
+        box(.055, 0, .105, .460, .145, .210, SILVER),
+        box(.055, 0, .226, .460, .145, .012, SILVER),
+        box(.055, 0, .294, .460, .145, .082, WHITE),
+        box(.055, 0, .347, .460, .145, .080, WHITE),
+        box(.055, -.069, .242, .460, .007, .030, SILVER),
+        box(.055, .069, .242, .460, .007, .030, SILVER),
+        box(.282, 0, .242, .006, .145, .030, SILVER),
         # Front-facing check-in display and card/receipt scanner.
         box(-.178, 0, .345, .006, .132, .070, SCALE_DARK),
         box(-.182, 0, .345, .002, .118, .058, BLUE),
@@ -213,7 +234,7 @@ kiosk.meta["visual_boxes"] = tuple(label("BAG DROP", .010, .015, .389,
 OBJECTS = [scale, bag, kiosk, *tag]
 
 
-# Adhesive is restricted to the two declared paper patches; never a gripper.
+# The adhesive back bonds only paper to paper; never a gripper, the handle or the case.
 # No position/orientation is changed when their contact bond is created.
 from partkit import on_reset, on_step
 import tag_closure

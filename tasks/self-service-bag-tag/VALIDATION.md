@@ -1,51 +1,97 @@
-# Validation — physical-pressure revision
+# Validation — self-adhesive tag revision (rev3)
 
-## Response to the previous review
+## Response to the previous review (TK-NF88FL)
 
-1. **Last sampled frame showed both grippers at the tag and no visible sealed loop.** The demo now ends with both grippers open, both arms back at their ready poses (TCP error < 0.71 mm) and the closed loop on the handle with its barcode outward, held still for 13.8 s. This was checked on the decoded final frame of the submitted video (`encoded-video-audit.json`, `closeup-video-audit.json`), not inferred from the trace. The video also adds a magnified wrist view, because the top camera's view of the squeeze is blocked by the hands.
-2. **The 0.85 tier was awarded at zero stable seconds.** `outcome_score` itself now requires at least 0.25 s of released stability, so inconsistent caller flags cannot bypass it. The regression covers 192 combinations, including 0, 0.249, 0.25, 1.99 and 2 s. README and task.json state the same rule.
-3. **The seal used alignment, overlap, proximity and time without a physical press.** A bond now requires a measured PhysX normal force of at least 1 N on the two designated coated patches, sustained for 0.4 s. Missing contact data never falls back to geometry. Controls with the same code:
-   - aligned hover at 3.4–4.2 mm separation: 0 N, no bond, score 0;
-   - touching but weak: 0.89 N, no bond;
-   - 20 g coupon at 0.20 N: no bond;
-   - force on the wrong place (3.89 N between the strips, but outside the coated patches): no bond;
-   - hover, then close and press: bonded at 2.85 N, score 1.0.
-   In the continuous demo, the layers touch at 0.40 N without bonding; the bond forms only once the jaws close (2.78–2.93 N), at step 2095.
-4. **Full-score run under the revised rule.** A fresh reset with no object-state writes scores 1.0, with a released stable loop.
+> Provide a purchasable product for the tape, and modify the tape model such that the backside
+> is self-adhesive. See "thermal baggage tag rolls".
+
+1. **Purchasable product.** The tag is modelled on linerless self-adhesive airline bag tags:
+   Eezeetags (Security Label GmbH) for the adhesive behaviour, and the retail POS Supply
+   AIR-SLFTAG21RL-SS thermal self-tag roll (2 x 21 in, 51 x 533 mm, 175 tags per roll) for the
+   size. Paper weight and thickness come from the Sihl PRESSURETAC BT 28/3 datasheet
+   (177 g/m², 170 µm). README "Real procedure and equipment" gives the links and states which
+   property comes from which source.
+2. **Self-adhesive back.** The whole back of every panel now carries the adhesive (drawn as a
+   faint beige layer); the printed front never does. Following the reference product, the
+   adhesive sticks only to itself, so it bonds back to back and never to the case, the handle
+   or the grippers. Any two non-neighbouring panels can bond if their backs are pressed
+   together; the score counts only a seal that closes the tag round the handle with the barcode
+   outside. The previous revision's coloured end patches are gone.
+
+## Changes since the previous revision
+
+| Area | Previous | Now | Why |
+| --- | --- | --- | --- |
+| Tag length / mass | 430 mm in places; 20 g | 533 mm, 4.8 g | reference roll size and Sihl grammage |
+| Discretisation | 10 panels x 53.3 mm | 14 panels x 38.1 mm | 53 mm rigid panels could not drape over the 30 mm handle |
+| Bending stiffness | Clark 150, EI 1.7e-4 N·m² | Clark 60, EI 6.8e-5 N·m² | lower end of the patent's preferred range; k = EI / L per hinge |
+| Air drag | none | linear damping 2.0 1/s | flat-plate drag; a hanging strip otherwise swings undamped |
+| Solver | 32 position iterations | 64 position, 8 velocity | keep light hinged panels joined under gripper contact |
+| Shell friction | 0.15 | 0.4 | the lower strand slid away under a press at 0.15 |
+| Adhesive faces | blue patch on panel 09 front to panel 00 back | whole back, back to back only | review request and reference product |
+| Bond gate | ≥ 1 N for 0.4 s on the patches | tack ≥ 0.25 N; seal ≥ 0.5 N; both 0.4 s | the fingertip press next to the handle cannot hold 1 N (runs 069/070); see README "Adhesive" |
+| Closure | end pinched in one gripper | right strand laid over the left strand, then pressed twice | the self-only back must meet another back |
 
 ## Current full demonstration
 
-`runs/full-demo-057/result.json` (bit-identical rerun of full-demo-053 with wrist frames also recorded): fresh-reset continuous run, score **1.0**, 2,756 control steps / 137.8 simulated seconds. Both grippers open and withdrawn; intact linked loop, exposed barcode, final stable interval 13.8 seconds. Seal triggered after the physical contact dwell, with 2.919 N measured coated-patch normal force. No intermediate object-state restore, scripted object teleport or gripper attachment was used in this run.
+`runs/rev3-final-074/result.json`: one continuous run from reset with the code defaults (no
+environment overrides) and `demo_commands`; score **1.0**, 3,208 control steps (160.4
+simulated seconds) at 20 Hz.
 
-The corrected motion loosens the right grasp before changing approach, regrips, opens around the two layers, remeasures their positions after opening, aligns, then closes to press. Scoring thresholds were not relaxed. Post-bond contact buffers are not reported as live pressure because PhysX can retain stale impulses after pair collision is disabled.
+* The tag is pulled from the presenter, the leading tip is fed under the handle by a
+  closed-loop feed that keeps it on the shell, and the right hand pinches and pulls it through.
+* The left hand lays its strand on the shell beside the handle and returns to ready. The right
+  hand turns the end over, carries it over the handle onto the left strand and lets go.
+* The right fingertips press the two layers twice at the same spot: the first press tacks
+  them, the second seals them. The seal forms at step 2340 between panels 6 and 12, back to
+  back, at 1.16 N. No bond of any kind forms earlier in the run.
+* Both hands end open and clear; the sealed loop stays round the handle with the barcode
+  (panel 7) exposed and is still for 3.95 s at the end of the hold.
+* Largest hinge separation 2.5 mm. Handle audit: one step with 0.017 mm penetration.
+* It reproduces `runs/rev3-replay-068` exactly (largest panel-position difference 0.0 m).
 
-`final-review.json` verifies final score, arm clearance/ready positions and source hashes. `encoded-video-audit.json` verifies encoded frame count and the actual final frame. `all-panel-pressure-audit.json` and `all-label-clearance.json` record sampled CPU collision geometry checks; they are not exhaustive continuous-collision or real-material certification.
+## Controls
 
-## Regression evidence
+* **No press:** the same commands stopped after the right hand lets go of the laid end
+  (`runs/rev3-ctrl-nopress`). Result: score 0.0 through step 1,614 with no
+  bond of any kind; the run was then stopped to free the GPU for the Dream run.
+* **Below threshold:** runs 069, 070 and snapshot V used a 1 N seal threshold. Their presses
+  reached 1.1–2.1 N peaks but never held 1 N for 0.4 s, and no seal formed (score 0). This is
+  why the seal threshold is 0.5 N (see README "Adhesive").
+* **Drop:** the previous revision's drop-after-extraction control (`BAGTAG_NEGATIVE`) is kept
+  in the probe; it was not rerun for this revision.
 
-- `test_score_outcomes.py`: 192 synthetic combinations, including release boundaries 0, 0.249, 0.25, 1.99 and 2 seconds.
-- `test_score_geometry.py`, `test_hold_window.py`: barcode exposure, integrity and hold resets.
-- `test_press_gate.py`: no force, weak force, wrong patch, tangential contact, interrupted dwell and nonfinite values.
-- `runs/press-weak-negative-026`: staged physical 20 g coupon contact peaked at 0.1962 N without bonding.
-- `runs/full-demo-044/failed-contact-review.json`: failed continuous attempt had 3.89 N total pair contact but zero qualifying patch force and overlap; bond and score correctly stayed zero. This was a failed attempt, not a deliberately staged counterexample.
-- `runs/full-demo-047`: closed-jaw turn trapped adjacent panel01; stopped with no bond and score0. Retained to document why open-jaw reorientation is required.
+## Dream-1-beta
 
-Historical full-demo-013/019 and Dream-01 used the superseded geometric-only bonding rule. They are not current revision evidence. The revised Dream-1-beta run (`runs/dream-02`) used the same task source as the demo. It was one valid session of 4,800 steps with no errored trials and five recovered protocol retries, and it scored 0.0: the model never extracted the tag. Its video is `runs/dream-02/model_run.mp4`. Adhesive chemistry, force/dwell and break limits are uncalibrated approximations; see ADHESION_REALISM.md.
+One episode on this revision with a 1,000-step cap (`--max-steps 1000`): task_score 0.0,
+ended by the step cap. The arms stayed near their start poses and never took the tag from the
+presenter.
 
-## Deliberate closing motion
-Continuous full-demo-053 closes the fingers over 0.8 s after alignment and holds closure for 3 s before release. No score, scene, contact or adhesive parameters changed. Pressure-window sampled panel/finger overlap peaked at 0.171 mm; this is a bounded sample, not a continuous collision proof. Encoded final frame independently inspected: hands home, linked tag retained, barcode outward.
+## Regression tests
 
-## Collision-free arm withdrawal
-The right hand now opens and backs away diagonally (-60 mm X, -120 mm Y, +45 mm Z) before rotating, keeping it clear of the left hand. Sampled convex-hull audit of the recorded joints over the whole release and final hold (`runs/full-demo-053/withdrawal-clearance.json`, 122 samples): 0.0 mm arm-to-arm and 0.0 mm right-arm-to-scene depth. The superseded route, which rotated before retreating, planned about 20.5 mm of arm overlap on CPU (`runs/release-route-cpu.json`); in its recorded rollout the arms touched (0.6 mm sampled depth, `runs/full-demo-051/withdrawal-clearance.json`). Sampled checks are not exhaustive continuous-collision proof. Encoded video: 689 frames / 137.8 s, terminal frame matches the final simulation frame (`encoded-video-audit.json`).
+- `test_score_outcomes.py`: 192 synthetic combinations of the score tiers, including release
+  boundaries 0, 0.249, 0.25, 1.99 and 2 s.
+- `test_score_geometry.py`: barcode exposure on a recorded 14-panel closed state, occlusion by
+  another paper face, rotating and oscillating corners, hold resets and seal-break latching.
+- `test_hold_window.py`: hold-window resets.
+- `test_press_gate.py`: no force, weak force, off-panel contact, back on front, tangential
+  contact, interrupted dwell and non-finite values; a 0.24 N contact never tacks and a 0.3 N
+  contact held 0.4 s does.
 
-## Hover-versus-press controls (staged, restored start; not demos)
-All three use the same restored start and route as the release diagnostic, and scoring thresholds were not changed.
-- `runs/hover-negative-054`: the patches were aligned inside open jaws (1,762 mm² overlap, normal dot ≥ 0.990) and hovered 3.8 s without squeezing. Measured patch force was 0 N and no bond formed. After release the tag fell off: final score 0. The layers stayed 3.4–4.2 mm apart, so this tests aligned hovering at close range, not touching.
-- `runs/hover-then-press-055`: hover, reopen the jaws to 8 mm, then close at the old target. The layers had shifted, so although they were touching, the sustained patch force was only 0.89 N (below 1 N). The gate refused to bond and the run stopped without releasing (score 0). This also shows that a real but too-weak squeeze does not pass.
-- `runs/hover-then-press-056`: hover (0 N, no bond), reopen, re-measure and re-align, then close and press. The bond formed at step 393 at 2.846 N after the 0.4 s dwell. The release was collision-free (`withdrawal-clearance.json`, 0.0 mm sampled), and the run ended with score 1.0 and 5.8 s of stability. The video `staged-hover-then-press-diagnostic.mp4` shows this staged diagnostic.
+## Known limits
 
-## Close-up video
-The top camera's view of the squeeze is blocked by the hands. `runs/full-demo-057/successful-demo-closeup.mp4` (960×352, 689 frames, 137.8 s) places the unmodified top view beside a magnified right-wrist crop and the left-wrist view, all from the same simulation step. Run 057 repeats 053's robot commands; its recorded panel trajectory is identical (0.0 m maximum difference). Only extra wrist frames were saved. Its final review, encoded-frame audits, withdrawal (0.0 mm), whole-run arm clearance (0.0 mm), pressure-window (0.171 mm) and label (0.798 mm transient) audits match 053. The wrist panel shows two separated layers at step 2072, the jaws closing at 2080, squeezed layers at 2088, and the seal formed at step 2095 at 2.919 N.
-
-## No gripper adhesion
-The simulated bond can only join the two tag end bodies (panel 00 and panel 09). The contact view is filtered to that pair, and `create_bond` locates only those two bodies. Gripper contact is ordinary friction and can never create a bond. This matches the reference stock's linerless coating, which bonds only coating-to-coating. In run 057, as the right fingers open (steps 2146–2165) and then rise about 45 mm while withdrawing, the bonded ends move at most 3.2 mm. That motion is a slight downward settle under gravity, not following the fingers. After the left release, the loop settles about 5 mm onto the handle and then stays still for 13.8 s. Real gripper-pad tack is not modelled.
+* Adhesive thresholds, break limits and friction values are simulation approximations; the
+  reference products publish no application force or bond strength.
+* Paper friction (1.25) is higher than real paper-on-paper friction so that the grippers can
+  pull the tag from the presenter.
+* Hinged rigid panels approximate a continuous strip. Hinge separations up to about 2.5 mm
+  occur under gripper contact.
+* The release audit's 5 mm limit is not met when a hand lets go of a hanging strand: the
+  strand then falls or swings under gravity (74–223 mm at the four releases in the 1.0 run).
+  The audit records finger–panel contacts during each release so that following the fingers
+  can be told apart from falling.
+* Robot targets are recomputed from simulator poses (closed loop); the demo restores no object
+  state. Preflight IK tolerance on Cartesian segments is 8°; arm-to-arm clearance on joint
+  routes is checked at 2 mm.
+* Earlier evidence (runs 001–067, 10- and 20-panel models, older adhesive rule) is superseded
+  and not counted here.

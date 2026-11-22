@@ -17,7 +17,8 @@ from yam_arena.constants import FINGER_CLOSED, FINGER_OPEN, READY
 from yam_arena.urdf import axis_angle_matrix
 
 HERE = Path(__file__).resolve().parent
-PANELS = [f"tag_panel_{i:02d}" for i in range(10)]
+from tag_dims import SEGMENTS as _SEG
+PANELS = [f"tag_panel_{i:02d}" for i in range(_SEG)]
 
 
 def frame(approach, closing):

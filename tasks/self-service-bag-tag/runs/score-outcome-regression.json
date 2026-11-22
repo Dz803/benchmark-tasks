@@ -1,0 +1,1734 @@
+{
+  "kind": "CPU truth-table only; not contact evidence",
+  "passed": true,
+  "cases": [
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": false,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": false,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.75
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.85
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.85
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 1.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": false,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 1.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": false,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": false,
+      "stable_s": 3.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.249,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 0.25,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 1.99,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 2.0,
+      "score": 0.0
+    },
+    {
+      "extracted": true,
+      "bonded": true,
+      "broken": true,
+      "linked": true,
+      "released": true,
+      "stable_s": 3.0,
+      "score": 0.0
+    }
+  ]
+}

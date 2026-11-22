@@ -55,7 +55,7 @@ def pinch_metrics(state):
     from yam_arena import ik, station
     q = np.asarray(state["robots"]["right"]["joints"])
     tcp, R = ik.tcp_pose(q[:6], station.BASES["right"])
-    c, P = panel_frame(state["panel_xyz"][9], state["panel_quat_xyzw"][9])
+    c, P = panel_frame(state["panel_xyz"][-1], state["panel_quat_xyzw"][-1])
     local = R.T @ (c - tcp)
     free_end = c - .0215 * P[:, 0]
     return {

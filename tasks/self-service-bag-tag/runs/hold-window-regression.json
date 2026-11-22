@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "kind": "actual runtime block tested on synthetic poses",
+  "checks": [
+    "2s valid hold",
+    "6mm excursion resets",
+    "return does not restore credit",
+    "invalid prerequisite resets",
+    "rotation resets"
+  ]
+}

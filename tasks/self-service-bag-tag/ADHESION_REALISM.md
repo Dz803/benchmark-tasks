@@ -1,16 +1,41 @@
-# Adhesive realism requirements — revision
+# Adhesive realism
 
-Reference: SIHL PRESSURETAC BT 28/3, https://sihl.com/en/products/pressure-tac-bt-283/ and https://sihl.com/en/pressuretac-airline/ (checked 2026-11-19).
+## Reference products
 
-Manufacturer facts: linerless coating bonds only coating-to-coating; form a loop, press ends together, smooth out. Grammage 177 ± 8 g/m²; paper thickness 170 ± 12 µm. These are reference product properties, NOT current simulation properties. The current 1 mm, 2 g rigid panels are a coarse discretization and do not reproduce this stock.
+* **Adhesive behaviour:** Eezeetags linerless self-adhesive bag tags (Security Label GmbH). The
+  manufacturer describes direct thermal printable paper whose back carries an adhesive that only
+  sticks to itself, with no liner to peel, designed to IATA Recommended Practice 1740. It does
+  not stick to bags, clothes or floors.
+* **Size:** POS Supply AIR-SLFTAG21RL-SS thermal self-tag roll, 2 x 21 in (51 x 533 mm) per tag,
+  sold retail. Only its size is used; its listing does not describe a self-only adhesive.
+* **Stock:** Sihl PRESSURETAC BT 28/3 datasheet, 177 ± 8 g/m², 170 ± 12 µm. The manufacturer
+  states that the linerless coating bonds coating to coating: form a loop, press the ends
+  together, smooth out.
 
-The inspected manufacturer page does not specify required application force, dwell, peel strength or shear strength. Its paper tensile strength must not be treated as adhesive bond strength. Generic VHB tape application pressures are not applicable evidence for this product.
+None of these sources gives an application force, dwell time, peel strength or shear strength.
+Paper tensile strength is not adhesive bond strength.
 
-Current 1 N / 0.4 s gate and 8 N / 0.15 Nm joint limits are uncalibrated simulation parameters. A breakable fixed joint does not reproduce pressure-dependent bond growth or peel mechanics. Contact force in newtons is not pressure in pascals; geometric overlap is not measured real contact area. Do not label force divided by geometric overlap as measured adhesive pressure.
+## Simulation model (approximation)
 
-Release gate: real compressive contact on matching coated faces, no proximity-only bond, no adhesive attachment to gripper or suitcase, no gross interpenetration, and released stable loop. Audit all label panels, not just two end panels. Validity requires corrected contact mechanics before a new complete demo. Do not count scripted pose placement or force-free welding as evidence.
+| Quantity | Value | Basis |
+| --- | --- | --- |
+| Bonding faces | back to back only, any two non-neighbouring panels | manufacturer: self-only adhesive |
+| Overlap | ≥ 600 mm², any in-plane angle | task design |
+| Tack | ≥ 0.25 N on both backs for 0.4 s → 2 N / 0.05 N·m joint; not a seal | simulation approximation |
+| Seal | ≥ 0.5 N on both backs for 0.4 s → 8 N / 0.15 N·m joint | simulation approximation; the previous revision used 1 N |
+| Force sampling | peak of the last 3 control samples; a dip to ≥ 80 % pauses the dwell | numerical: one sampled substep per control step |
+| Stillness | the two mating panels' relative motion < 0.04 m/s | sliding would smear the adhesive |
 
-Expanded audit invalidated endpoint-press-032 as a successful physical manipulation: panel01 midplane penetrated a right finger by approximately 3.839 mm, although endpoint contact forces were recorded. Correct the approach and adjacent panel clearance before further release tuning. Quantitative adhesive fidelity requires product testing/data; until then describe the model explicitly as an approximation.
+Contact force in newtons is not pressure in pascals, and geometric overlap is not measured real
+contact area. A breakable fixed joint created at the current relative pose does not reproduce
+pressure-dependent bond growth or peel. A real finger press on a bag tag is probably well above
+1 N; the 0.5 N seal threshold is lower than that because the robot's fingertip press next to the
+handle holds only about 0.5–1 N (it peaks at 1–2 N). The thresholds are approximations, not
+calibrated values.
 
-## Robot pressing motion
-The receiving gripper must open around both aligned coated end faces, then close along the sheet normal. The supporting gripper remains on the other end, outside the receiving fingers. No arm-to-arm collision may provide the apparent press. Record the actual contact force on the designated patches during closure and dwell; separately verify release, retained loop, outward barcode and both grippers clear. Contact force is not a calibrated contact-pressure field.
+## What the gate guarantees
+
+* Proximity or alignment without contact force never bonds (tested in `test_press_gate.py`).
+* A back on a printed front, the case, the handle or a gripper never bonds.
+* Only the seal level counts towards the score; a tack alone scores like no bond.
+* In the continuous demo no bond forms before the deliberate press at the end.

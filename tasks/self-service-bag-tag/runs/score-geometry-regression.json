@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "kind": "CPU synthetic predicates only",
+  "checks": [
+    "final known geometry exposed",
+    "paper occludes printed panels",
+    "rotating corners",
+    "returning oscillation",
+    "barcode resets hold",
+    "extraction resets hold",
+    "printer break ignored",
+    "adhesive break latches zero"
+  ]
+}

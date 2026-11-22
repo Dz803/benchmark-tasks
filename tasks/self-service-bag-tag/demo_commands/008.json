@@ -1,7 +1,7 @@
 {
   "id": 8,
   "side": "left",
-  "name": "reverse-pad grasp of opposite tail to avoid folded paper trap",
+  "name": "grasp opposite tail at panel10 (measured)",
   "waypoints": [
     {
       "duration": 2.0,
@@ -83,5 +83,12 @@
       "finger": 0,
       "label": "hold both tail grips"
     }
-  ]
+  ],
+  "measure_panel_frame": 10,
+  "closing_sign": 1,
+  "along_panel_m": 0.0,
+  "tcp_back_m": 0.004,
+  "approach_panel_axis": "-y",
+  "open_finger": -0.012,
+  "approach_s": 2.0
 }

@@ -7,7 +7,8 @@ def restore(run,path,step):
  base=run.emb._env.unwrapped;stage=get_current_stage()
  for prim in list(stage.Traverse()):
   if prim.GetName()=='frangible_joint' and 'tag_panel_00' in str(prim.GetPath()): stage.RemovePrim(prim.GetPath())
- for i in range(10):
+ from tag_dims import SEGMENTS
+ for i in range(SEGMENTS):
   a=base.scene[f'tag_panel_{i:02d}'];pose=torch.tensor([[*s['panel_xyz'][i],*s['panel_quat_xyzw'][i]]],device=base.device,dtype=torch.float32)
   a.write_root_pose_to_sim(pose);a.write_root_velocity_to_sim(torch.zeros((1,6),device=base.device))
  for side in ('left','right'):
